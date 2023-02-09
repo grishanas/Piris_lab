@@ -1,0 +1,91 @@
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace lab.classes.client
+{
+    [Table("Client")]
+    public class DBClient
+    {
+        [Key]
+        public string id { get; set; }
+        public string first_name { get; set; }
+        public string second_name { get; set; }
+        public string midle_name { get; set; }
+
+        public DateTime birthday { get; set; }
+        public bool sex { get; set; }
+        public string passport_series { get; set; }
+        public string pasport_number { get; set; }
+        public string authority { get; set; }
+        public DateTime date_of_issue { get; set; }
+        public string? place_of_birth { get; set; }
+        public string? mobile_phone { get; set; }
+        public string? home_phone { get; set; }
+        public string? e_mail { get; set; }
+        public string? work_place { get; set; }
+        public string? work_position { get; set; }
+        public string addres_of_registration { get; set; }
+        public bool retired { get; set; }
+
+        public decimal monthly_income { get; set; }
+
+        bool military_conscription { get; set; }
+
+    }
+
+    public class Client : DBClient
+    {
+
+        public List<City> live { get; set; }
+        public List<City> residence { get; set; }
+        public List<FamilyStatus> familyStatus { get; set; }
+        public List<Disabilities> disabilities { get; set; }
+        public List<Citizenship> citizenships { get; set; }
+
+    }
+
+    public class m2m_client_family
+    {
+        [Key]
+        public string id { get; set; }
+
+        [Key]
+        public int id_family_status { get; set; }
+
+    }
+
+    public class m2m_client_citezenship
+    {
+        [Key]
+        public string id { get; set; }
+        [Key]
+        public int citizenship_id { get; set; }
+    }
+
+    public class m2m_client_Disabilities
+    {
+        [Key]
+        public string id { get; set; }
+
+        [Key]
+        public int dis_id { get; set; }
+    }
+
+    public class m2m_client_live
+    {
+        [Key]
+        public string id { get; set; }
+        [Key]
+        public int city_id { get; set; }
+    }
+
+    public class m2m_client_residence
+    {
+        [Key]
+        [Column("client_id")]
+        public string id { get; set; }
+        [Key]
+        public int city_id { get; set;} 
+    }
+}
