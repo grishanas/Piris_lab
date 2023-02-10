@@ -111,13 +111,13 @@ namespace lab.db
 
             }catch(Exception e)
             {
+                throw;
 
             }
 
             if(family!=null)
             {
                 family.status_name=familyStatus.status_name;
-
                 familyStatuses.Update(family);
                 // SaveChanges should be put in the try catch
                 this.SaveChanges();

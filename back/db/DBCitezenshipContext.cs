@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using lab.classes;
+using lab.MyException.DbException;
 
 namespace lab.db
 {
@@ -23,6 +24,12 @@ namespace lab.db
         {
             if (citizenship == null)
                 throw new ArgumentNullException();
+            var city = await citizenships.FirstOrDefaultAsync(x=>x.id==citizenship.id || x.nationality==citizenship.nationality);
+            if (city != null)
+            {
+                throw new DublicateException("there is already a member with this identifier",nameof(citizenship));
+            }
+
             citizenships.Add(citizenship);
             try
             {
@@ -68,7 +75,7 @@ namespace lab.db
             }
             catch (Exception e)
             {
-
+                throw;
             }
 
             if (citizen != null)

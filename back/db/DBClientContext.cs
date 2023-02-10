@@ -2,6 +2,7 @@
 using lab.classes.client;
 using lab.classes;
 using lab.MyException.DbException;
+using System.Text.RegularExpressions;
 
 namespace lab.db
 {
@@ -133,6 +134,25 @@ namespace lab.db
                 throw new InappropriateFormatException("client.id", "Length != 11");
             if ((client.first_name == null) || (client.first_name.Length <= 0)||(client.first_name.Length>50))
                 throw new InappropriateFormatException("client.first_name", "wrong lentgh");
+            else
+            {
+                var reg = new Regex(@"[a-zA-zа-яА-я-]");
+                if (!reg.IsMatch(client.first_name))
+                    throw new InappropriateFormatException("client.first_name", "invalid character");
+                if (!reg.IsMatch(client.second_name))
+                    throw new InappropriateFormatException("client.second_name", "invalid character");
+                if (!reg.IsMatch(client.midle_name))
+                    throw new InappropriateFormatException("client.midle_name", "invalid character");
+            }
+            if (client.passport_series.Length != 2)
+                throw new InappropriateFormatException("client.passport_series","wrong length");
+            
+
+            if (dbClients.FirstAsync(x=>x.passport_series==client.passport_series && x.passport_number==client.passport_number)!=null)
+            {
+                throw new DublicateException("dublicate client pasport series and pasport number","client pasport");
+            }
+            
 
 
 
@@ -195,7 +215,7 @@ namespace lab.db
             this.SaveChanges();
         }
 
-        public async void AddClient(Client client)
+        public async Task<bool> AddClient(Client client)
         {
             AddDBClient((DBClient)client);
             AddFamilyStatus(client);
@@ -210,12 +230,249 @@ namespace lab.db
             }
             catch (Exception e)
             {
-
+                throw;
             }
+            return true;
         }
 
-        #endregion 
-    
+        #endregion
+
+        #region Delete Client
+
+        public async Task<bool> DeleteM2MClientResidences(string id)
+        {
+            var client= m2mResidences.Where(x => x.id == id).ToList();
+            if (client == null)
+                throw new NotExistException("","");
+            client.ForEach(i =>
+            {
+                m2mResidences.Remove(i);
+            });
+            try
+            {
+                this.SaveChanges();
+            }catch(Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
+        public async Task<bool> DeleteM2MLives(string id)
+        {
+            var client = m2mLives.Where(x => x.id == id).ToList();
+            if (client == null)
+                throw new NotExistException("", "");
+            client.ForEach(i =>
+            {
+                m2mLives.Remove(i);
+            });
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
+
+        public async Task<bool> DeleteM2MDiss(string id)
+        {
+            var client = m2mDis.Where(x => x.id == id).ToList();
+            if (client == null)
+                throw new NotExistException("", "");
+            client.ForEach(i =>
+            {
+                m2mDis.Remove(i);
+            });
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
+
+        public async Task<bool> DeleteM2MCitezenships(string id)
+        {
+            var client = m2mCitezenship.Where(x => x.id == id).ToList();
+            if (client == null)
+                throw new NotExistException("", "");
+            client.ForEach(i =>
+            {
+                m2mCitezenship.Remove(i);
+            });
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
+        public async Task<bool> DeleteM2MClients(string id)
+        {
+            var client = m2mClients.Where(x => x.id == id).ToList();
+            if (client == null)
+                throw new NotExistException("", "");
+            client.ForEach(i =>
+            {
+                m2mClients.Remove(i);
+            });
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
+
+
+        private async Task<bool> DeleteDBClient(string id)
+        {
+            var client = await dbClients.FirstAsync(x => x.id == id);
+            if (client == null)
+                throw new NotExistException("client don't exist", @"id={id}");
+            dbClients.Remove(client);
+            try
+            {
+                this.SaveChanges();
+            }catch(Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
+        public async Task<bool> DeleteClient(string id)
+        {
+            DeleteDBClient(id);
+            return true;
+        }
+        #endregion
+
+        #region Delete Client information
+        public async Task<bool> DeleteM2MClientResidence(m2m_client_residence m2M_Client_Residence)
+        {
+            m2mResidences.Remove(m2M_Client_Residence);
+            try
+            {
+                this.SaveChanges();
+            }catch(Exception e)
+            {
+                throw new NotExistException("", "");
+            }
+            return true;
+        }
+
+        public async Task<bool> Deletem2mLives(m2m_client_live m2M_client_live)
+        {
+            m2mLives.Remove(m2M_client_live);
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new NotExistException("","");
+            }
+            return true;
+        }
+
+        public async Task<bool> Deletem2mDis(m2m_client_Disabilities x)
+        {
+            m2mDis.Remove(x);
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new NotExistException("", "");
+            }
+            return true;
+        }
+
+
+        public async Task<bool> Deletem2mCitezenship(m2m_client_citezenship x)
+        {
+            m2mCitezenship.Remove(x);
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new NotExistException("", "");
+            }
+            return true;
+        }
+
+
+        public async Task<bool> Deletem2mClients(m2m_client_family x)
+        {
+            m2mClients.Remove(x);
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new NotExistException("", "");
+            }
+            return true;
+        }
+
+
+        #endregion
+
+        #region Update Client
+        public async Task<bool> UpdateClient(DBClient Client)
+        {
+            var client = await dbClients.FirstAsync(x=>x.id== Client.id);
+            if(client == null)
+                throw new NotExistException("client don't exisy", @"id={id}");
+
+            client.first_name = Client.first_name;
+            client.second_name = Client.second_name;
+            client.midle_name = Client.midle_name;
+            client.birthday = Client.birthday;
+            client.sex = Client.sex;
+            client.passport_series = Client.passport_series;
+            client.passport_number = Client.passport_number;
+            client.authority = Client.authority;
+            client.date_of_issue = Client.date_of_issue;
+            client.place_of_birth = Client.place_of_birth;
+            client.mobile_phone = Client.mobile_phone;
+            client.home_phone = Client.home_phone;
+            client.e_mail = Client.e_mail;
+            client.work_place = Client.work_place;
+            client.work_position = Client.work_position;
+            client.address_of_registration = Client.address_of_registration;
+            client.retired = Client.retired;
+            client.monthly_income = Client.monthly_income;
+            client.military_conscription = Client.military_conscription;
+
+            dbClients.Update(client);
+            try
+            {
+                this.SaveChanges();
+
+            }catch(Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
+        #endregion
 
     }
 }
