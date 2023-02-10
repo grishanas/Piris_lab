@@ -16,7 +16,7 @@ namespace lab.classes.client
         public DateTime birthday { get; set; }
         public bool sex { get; set; }
         public string passport_series { get; set; }
-        public string pasport_number { get; set; }
+        public string passport_number { get; set; }
         public string authority { get; set; }
         public DateTime date_of_issue { get; set; }
         public string? place_of_birth { get; set; }
@@ -25,12 +25,12 @@ namespace lab.classes.client
         public string? e_mail { get; set; }
         public string? work_place { get; set; }
         public string? work_position { get; set; }
-        public string addres_of_registration { get; set; }
+        public string address_of_registration { get; set; }
         public bool retired { get; set; }
 
         public decimal monthly_income { get; set; }
 
-        bool military_conscription { get; set; }
+        public bool military_conscription { get; set; }
 
     }
 
@@ -45,6 +45,7 @@ namespace lab.classes.client
 
     }
 
+    [Table("m2m_client_family")]
     public class m2m_client_family
     {
         [Key]
@@ -55,6 +56,7 @@ namespace lab.classes.client
 
     }
 
+    [Table("m2m_client_citezenship")]
     public class m2m_client_citezenship
     {
         [Key]
@@ -63,6 +65,7 @@ namespace lab.classes.client
         public int citizenship_id { get; set; }
     }
 
+    [Table("m2m_client_Disabilities")]
     public class m2m_client_Disabilities
     {
         [Key]
@@ -72,6 +75,7 @@ namespace lab.classes.client
         public int dis_id { get; set; }
     }
 
+    [Table("m2m_client_live")]
     public class m2m_client_live
     {
         [Key]
@@ -80,6 +84,7 @@ namespace lab.classes.client
         public int city_id { get; set; }
     }
 
+    [Table("m2m_client_residence")]
     public class m2m_client_residence
     {
         [Key]

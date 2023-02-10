@@ -15,6 +15,9 @@ namespace lab
             // Add services to the container.
 
             builder.Services.AddDbContext<DBCityContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBClientContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBDisabilitiesContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBFamilyStatusContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

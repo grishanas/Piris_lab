@@ -7,11 +7,19 @@ namespace lab.db
     public class DBCityContext : DbContext 
     {
         public DbSet<City> Cities { get; set; }
+        public DBCityContext() : base()
+        {
+
+        }
+        public DBCityContext(DbContextOptions<DBCityContext> options) : base(options)
+        {
+
+        }
 
 
         #region Add City
 
-        public async void AddCity(City city)
+        public async Task<bool> AddCity(City city)
         {
             try
             {
@@ -21,12 +29,13 @@ namespace lab.db
             }
             catch (Exception e)
             {
-
+                throw;
             }
+            return true;
 
         }
 
-        public async void AddCity(List<City> cities)
+        public async Task<bool> AddCity(List<City> cities)
         {
             try
             {
@@ -38,8 +47,9 @@ namespace lab.db
             }
             catch (Exception e)
             {
-
+                throw;
             }
+            return true;
 
         }
 
@@ -47,7 +57,7 @@ namespace lab.db
 
         #region Delete City
 
-        public async void DeleteCity(City city)
+        public async Task<bool> DeleteCity(City city)
         {
             try
             {
@@ -56,8 +66,9 @@ namespace lab.db
             }
             catch (Exception e)
             {
-
+                throw;
             }
+            return true;
         }
         #endregion
 
@@ -78,31 +89,22 @@ namespace lab.db
 
         #region Update City
 
-        public void UpdateCity(City familyStatus)
+        public async Task<bool> UpdateCity(City familyStatus)
         {
-            City city = null;
+
+
             try
-            {
-                city = Cities.First(x => x.id == familyStatus.id);
-
-            }
-            catch (Exception e)
-            {
-
-            }
-
-            if (city != null)
             {
                 Cities.Update(familyStatus);
                 // SaveChanges should be put in the try catch
                 this.SaveChanges();
 
             }
-            else
+            catch(Exception e)
             {
-                throw new Exception();
+                throw;
             }
-
+            return true;
         }
 
         #endregion       

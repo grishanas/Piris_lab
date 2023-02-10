@@ -9,24 +9,46 @@ namespace lab.db
         public DbSet<FamilyStatus> familyStatuses { get; set; }
 
 
-        #region Add Family status
-
-        public async void AddFamilyStatus(FamilyStatus familyStatus)
+        public DBFamilyStatusContext() : base()
         {
-            try
-            {
-                familyStatuses.Add(familyStatus);
-                this.SaveChanges();
 
-            }
-            catch(Exception e)
-            {
-
-            }
+        }
+        public DBFamilyStatusContext(DbContextOptions<DBFamilyStatusContext> options) : base(options)
+        {
 
         }
 
-        public async void AddFamilyStatuses(List<FamilyStatus> FamilyStatuses)
+        #region Add Family status
+
+        public async Task<bool> AddFamilyStatus(FamilyStatus familyStatus)
+        {
+
+            if (familyStatus == null)
+                throw new ArgumentNullException(nameof(familyStatus));
+            if (familyStatus.id == null)
+                throw new ArgumentNullException(nameof(familyStatus));
+
+            familyStatuses.Add(familyStatus);
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+               //throw ; //new Exception(ex.Message);
+            }
+            catch (DbUpdateException ex)
+            {
+                
+                throw new Exception(ex.InnerException.HResult.ToString()); //new Exception(ex.Message);*/
+            }
+            catch { }
+
+            return true;
+
+        }
+
+        public async Task<bool> AddFamilyStatuses(List<FamilyStatus> FamilyStatuses)
         {
             try
             {
@@ -40,6 +62,7 @@ namespace lab.db
             {
 
             }
+            return true;
 
         }
 
@@ -47,7 +70,7 @@ namespace lab.db
 
         #region Delete Family Status
 
-        public async void DeleteFamilyStatus(FamilyStatus familyStatus)
+        public async Task<bool> DeleteFamilyStatus(FamilyStatus familyStatus)
         {
             try
             {
@@ -58,6 +81,7 @@ namespace lab.db
             {
 
             }
+            return true;
         }
         #endregion
 
@@ -78,21 +102,23 @@ namespace lab.db
 
         #region Update Family Status
 
-        public void UpdateFamilyStatus( FamilyStatus familyStatus)
+        public async Task<bool> UpdateFamilyStatus( FamilyStatus familyStatus)
         {
             FamilyStatus family=null;
             try
             {
-                family = familyStatuses.First(x => x.id  == familyStatus.id);
+                family = familyStatuses.FirstOrDefault(x => x.id  == familyStatus.id);
 
             }catch(Exception e)
             {
 
             }
 
-            if (family != null)
+            if(family!=null)
             {
-                familyStatuses.Update(familyStatus);
+                family.status_name=familyStatus.status_name;
+
+                familyStatuses.Update(family);
                 // SaveChanges should be put in the try catch
                 this.SaveChanges();
 
@@ -102,6 +128,7 @@ namespace lab.db
                 throw new Exception();
             }
 
+            return true;
         }
 
         #endregion

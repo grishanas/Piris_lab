@@ -6,11 +6,20 @@ namespace lab.db
 {
     public class DBDisabilitiesContext:DbContext
     {
-        DbSet<Disabilities> Disabilities { get; set; }
+        public DbSet<Disabilities> Disabilities { get; }
+
+        public DBDisabilitiesContext() : base()
+        {
+
+        }
+        public DBDisabilitiesContext(DbContextOptions<DBDisabilitiesContext> options) : base(options)
+        {
+
+        }
 
         #region Add Disabilities
 
-        public async void AddDisability(Disabilities disability)
+        public async Task<bool> AddDisability(Disabilities disability)
         {
             try
             {
@@ -18,8 +27,9 @@ namespace lab.db
                 this.SaveChanges();
             }catch(Exception e)
             {
-
+                throw;
             }
+            return true;
 
         }
         #endregion
@@ -47,7 +57,7 @@ namespace lab.db
 
         #region Delete disability
 
-        public async void DeleteDisability(Disabilities disability)
+        public async Task<bool> DeleteDisability(Disabilities disability)
         {
             try
             {
@@ -56,13 +66,14 @@ namespace lab.db
 
             }catch(Exception e)
             {
-
+                throw;
             }
+            return true;
         }
         #endregion
 
         #region Update Disability
-        public async void UpdateDisability(Disabilities disability)
+        public async Task<bool> UpdateDisability(Disabilities disability)
         {
             try
             {
@@ -70,8 +81,10 @@ namespace lab.db
                 SaveChanges();
             }catch(Exception e)
             {
+                throw;
 
             }
+            return true;
         }
         #endregion
     }

@@ -30,18 +30,38 @@ namespace lab.Controllers
             return Results.Json(clients);
         }
 
-        [HttpPost("/AddClient")]
+
+        #region Add client information
+
+/*        [HttpPost("/AddDBClient")]
         public async Task<IResult> AddClient([FromBody] DBClient client)
         {
             try
             {
+                
+
 
             }catch(Exception e)
             {
 
             }
             return Results.Ok();
+        }*/
+        [HttpPost("/AddClient")]
+        public async Task<IResult> AddClient([FromBody] Client client)
+        {
+            try
+            {
+                _context.AddClient(client);
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            return Results.Ok();
         }
+        #endregion
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using lab.classes.client;
 using lab.classes;
+using lab.MyException.DbException;
 
 namespace lab.db
 {
@@ -30,8 +31,18 @@ namespace lab.db
         {
 
         }
-        public DBClientContext(DbContextOptions<DBCityContext> options) : base(options)
+        public DBClientContext(DbContextOptions<DBClientContext> options) : base(options)
         {
+
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<m2m_client_family>().HasKey(m => new { m.id, m.id_family_status });
+            modelBuilder.Entity<m2m_client_citezenship>().HasKey(m => new { m.id, m.citizenship_id });
+            modelBuilder.Entity<m2m_client_Disabilities>().HasKey(m => new { m.id, m.dis_id });
+            modelBuilder.Entity<m2m_client_live>().HasKey(m => new { m.id, m.city_id });
+            modelBuilder.Entity<m2m_client_residence>().HasKey(m => new { m.id, m.city_id });
 
         }
         #endregion
@@ -116,9 +127,21 @@ namespace lab.db
 
         public async void AddDBClient(DBClient client)
         {
+            if(client == null)
+                throw new ArgumentNullException("client");
+            if ((client.id == null) || (client.id.Length != 11))
+                throw new InappropriateFormatException("client.id", "Length != 11");
+            if ((client.first_name == null) || (client.first_name.Length <= 0)||(client.first_name.Length>50))
+                throw new InappropriateFormatException("client.first_name", "wrong lentgh");
+
+
+
+
+
+
+            dbClients.Add(client);
             try
             {
-                dbClients.Add(client);
                 this.SaveChanges();
             }
             catch (Exception e)
@@ -174,14 +197,16 @@ namespace lab.db
 
         public async void AddClient(Client client)
         {
+            AddDBClient((DBClient)client);
+            AddFamilyStatus(client);
+            AddCitiesOfLive(client);
+            AddCitiesOfResidence(client);
+            AddCitizenships(client);
+            AddDisabilities(client);
             try
             {
-                AddDBClient((DBClient)client);
-                AddFamilyStatus(client);
-                AddCitiesOfLive(client);
-                AddCitiesOfResidence(client);
-                AddCitizenships(client);
-                AddDisabilities(client);
+
+                this.SaveChanges();
             }
             catch (Exception e)
             {
