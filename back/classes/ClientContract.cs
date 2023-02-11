@@ -34,7 +34,7 @@ namespace lab.classes
         public float interest_rate { get; set; } 
     }
     [Table("deposit_type")]
-    public class deposit_type
+    public class contract_type
     {
         [Key]
         [Required]

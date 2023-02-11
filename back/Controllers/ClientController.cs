@@ -52,7 +52,7 @@ namespace lab.Controllers
         {
             try
             {
-                _context.AddClient(client);
+                await _context.AddClient(client);
 
             }
             catch (Exception e)
@@ -62,6 +62,36 @@ namespace lab.Controllers
             return Results.Ok();
         }
         #endregion
+
+        #region Delete client
+
+        [HttpDelete]
+        public async Task<IResult> DeleteClient([FromBody] string id)
+        {
+            try
+            {
+                await _context.DeleteClient(id);
+            }catch(Exception e)
+            {
+                return Results.Problem();
+            }
+            return Results.Ok();
+        }
+        #endregion
+
+        [HttpPatch]
+        public async Task<IResult> UpdateClient([FromBody] DBClient client)
+        {
+            try
+            {
+
+                _context.UpdateClient(client);
+            }catch(Exception e)
+            {
+                return Results.Problem();
+            }
+            return Results.Ok();
+        }
 
     }
 }

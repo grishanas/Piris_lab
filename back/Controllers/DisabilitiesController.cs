@@ -59,6 +59,7 @@ namespace lab.Controllers
             return Results.Ok();
         }
 
+        [HttpPatch]
         public async Task<IResult> UpdateDisability([FromBody] Disabilities disability)
         {
             try
