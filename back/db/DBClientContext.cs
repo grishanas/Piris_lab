@@ -48,7 +48,7 @@ namespace lab.db
         }
         #endregion
         #region Get client
-        public List<Disabilities> GetDisabilities(string id)
+        public List<Disabilities>? GetDisabilities(string id)
         {
             var dis = m2mDis.Where(m2m => m2m.id == id).Join(Disabilities, 
                 m2m => m2m.dis_id, 
@@ -58,7 +58,7 @@ namespace lab.db
         }
 
 
-        public List<Citizenship> GetCitizenships(string id)
+        public List<Citizenship>? GetCitizenships(string id)
         {
             var citizenship = m2mCitezenship.Where(m2m => m2m.id == id).Join(citizenships,
                 m2m => m2m.citizenship_id,
@@ -67,7 +67,7 @@ namespace lab.db
             return citizenship;
         }
 
-        public List<FamilyStatus> GetFamilyStatus(string id)
+        public List<FamilyStatus>? GetFamilyStatus(string id)
         {
             var status = m2mClients.Where(m2m => m2m.id == id).Join(familyStatuses, 
                 m2m => m2m.id_family_status, 
@@ -76,13 +76,13 @@ namespace lab.db
             return status;
         }
 
-        public List<City> GetCitiesOfResidences(string id)
+        public List<City>? GetCitiesOfResidences(string id)
         {
             return m2mResidences.Where(m2m=>m2m.id==id)
                 .Join(cities,m2m=>m2m.city_id,cities=>cities.id,(m2m,cities)=> new City {id=cities.id,name=cities.name} ).ToList();
         }
 
-        public List<City> GetCitiesOfLive(string id)
+        public List<City>? GetCitiesOfLive(string id)
         {
             return m2mLives.Where(m2m => m2m.id == id)
                 .Join(cities, m2m => m2m.city_id, cities => cities.id, (m2m, cities) => new City { id = cities.id, name = cities.name }).ToList();
@@ -109,17 +109,18 @@ namespace lab.db
             List<Client> clients = new List<Client>();
             dbClients.ToList().ForEach(client =>
             {
-                clients.Add((Client)client);
+                Client client1 = new Client(client);
+                clients.Add(client1);
             });
 
-            clients.ForEach(client =>
+/*            clients.ForEach(client =>
             {
                 client.live = GetCitiesOfLive(client.id);
                 client.residence = GetCitiesOfResidences(client.id);
                 client.disabilities = GetDisabilities(client.id);
                 client.familyStatus = GetFamilyStatus(client.id);
                 client.citizenships = GetCitizenships(client.id);
-            });
+            });*/
             return clients;
         }
         #endregion 
