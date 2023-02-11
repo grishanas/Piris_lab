@@ -17,9 +17,9 @@ namespace lab.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IResult> GetClient([FromBody] string id)
+        public async Task<IResult> GetClient([FromRoute] string id)
         {
-            var client = _context.GetClient(id);
+            var client = await _context.GetClient(id);
             return Results.Json(client);
         }
 
@@ -85,7 +85,7 @@ namespace lab.Controllers
             try
             {
 
-                _context.UpdateClient(client);
+                await _context.UpdateClient(client);
             }catch(Exception e)
             {
                 return Results.Problem();

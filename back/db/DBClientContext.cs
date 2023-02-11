@@ -84,8 +84,9 @@ namespace lab.db
 
         public List<City>? GetCitiesOfLive(string id)
         {
-            return m2mLives.Where(m2m => m2m.id == id)
+            var tmp = m2mLives.Where(m2m => m2m.id == id)
                 .Join(cities, m2m => m2m.city_id, cities => cities.id, (m2m, cities) => new City { id = cities.id, name = cities.name }).ToList();
+            return tmp;
         }
 
         public async Task<DBClient> GetClientFromDB(string id)
@@ -95,7 +96,7 @@ namespace lab.db
 
         public async Task<Client> GetClient(string id)
         {
-            Client client =(Client)await GetClientFromDB(id);
+            Client client = new Client(await GetClientFromDB(id));
             client.live = GetCitiesOfLive(id);
             client.residence = GetCitiesOfResidences(id);
             client.disabilities = GetDisabilities(id);
@@ -113,14 +114,14 @@ namespace lab.db
                 clients.Add(client1);
             });
 
-/*            clients.ForEach(client =>
-            {
-                client.live = GetCitiesOfLive(client.id);
+           clients.ForEach(client =>
+           {
+               client.familyStatus = GetFamilyStatus(client.id);
+               client.live = GetCitiesOfLive(client.id);
                 client.residence = GetCitiesOfResidences(client.id);
                 client.disabilities = GetDisabilities(client.id);
-                client.familyStatus = GetFamilyStatus(client.id);
                 client.citizenships = GetCitizenships(client.id);
-            });*/
+            });
             return clients;
         }
         #endregion 

@@ -66,6 +66,12 @@ namespace lab.classes.client
             this.retired = option.retired;
             this.monthly_income = option.monthly_income;
             this.military_conscription = option.military_conscription;
+
+            live = null;
+            residence = null;
+            familyStatus = null;
+            disabilities = null;
+            citizenships = null;
         }
 
     }
@@ -81,7 +87,7 @@ namespace lab.classes.client
 
     }
 
-    [Table("m2m_client_citezenship")]
+    [Table("m2m_client_citizenship")]
     public class m2m_client_citezenship
     {
         [Key]
@@ -104,6 +110,7 @@ namespace lab.classes.client
     public class m2m_client_live
     {
         [Key]
+        [Column("client_id")]
         public string id { get; set; }
         [Key]
         public int city_id { get; set; }
