@@ -26,7 +26,7 @@ namespace lab.Controllers
         [HttpGet]
         public async Task<IResult> GetClents()
         {
-            var clients= _context.GetClients();
+            var clients= await _context.GetClients();
             return Results.Json(clients);
         }
 
