@@ -172,62 +172,88 @@ namespace lab.db
             }
         }
 
-        public async void AddCitiesOfLive(Client client)
+        public async Task<bool> AddCitiesOfLive(m2m_client_live client)
         {
-            foreach(var city in client.live)
-            {
-                await m2mLives.AddAsync(new m2m_client_live { city_id = city.id, id = client.id });
-            }
-            this.SaveChanges();
-        }
+            m2mLives.Add(client);
 
-        public async void AddCitiesOfResidence(Client client)
-        {
-            foreach (var city in client.residence)
-            {
-                m2mResidences.Add(new m2m_client_residence {  city_id = city.id, id = client.id });
-            }
-            this.SaveChanges();
-        }
-
-        public async void AddDisabilities(Client client)
-        {
-            foreach (var dis in client.disabilities)
-            {
-                m2mDis.Add(new m2m_client_Disabilities { dis_id = dis.id, id = client.id });
-            }
-            this.SaveChanges();
-        }
-
-        public async void AddCitizenships(Client client)
-        {
-            foreach(var i in client.citizenships)
-            {
-                m2mCitezenship.Add(new m2m_client_citezenship { citizenship_id = i.id, id = client.id });
-            }
-            this.SaveChanges();
-        }
-
-        public async void AddFamilyStatus(Client client)
-        {
-            foreach (var i in client.familyStatus)
-            {
-                m2mClients.Add(new m2m_client_family { id_family_status = i.id, id = client.id });
-            }
-            this.SaveChanges();
-        }
-
-        public async Task<bool> AddClient(Client client)
-        {
-            AddDBClient((DBClient)client);
-            AddFamilyStatus(client);
-            AddCitiesOfLive(client);
-            AddCitiesOfResidence(client);
-            AddCitizenships(client);
-            AddDisabilities(client);
             try
             {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
 
+        public async Task<bool> AddCitiesOfResidence(m2m_client_residence client)
+        {
+            m2mResidences.Add(client);
+
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
+
+        public async Task<bool> AddDisabilities(m2m_client_Disabilities client)
+        {
+
+            m2mDis.Add(client);
+
+            try
+            {
+                this.SaveChanges();
+            }catch(Exception e)
+            {
+                throw;
+            }
+            return true;
+
+            
+        }
+
+        public async Task<bool> AddCitizenships(m2m_client_citezenship client)
+        {
+            m2mCitezenship.Add(client);
+
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
+
+        public async Task<bool> AddFamilyStatus(m2m_client_family client)
+        {
+            m2mClients.Add(client);
+
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return true;
+        }
+
+        public async Task<bool> AddClient(DBClient client)
+        {
+            AddDBClient(client);
+            try
+            {
                 this.SaveChanges();
             }
             catch (Exception e)
@@ -362,7 +388,7 @@ namespace lab.db
         #endregion
 
         #region Delete Client information
-        public async Task<bool> DeleteM2MClientResidence(m2m_client_residence m2M_Client_Residence)
+        public async Task<bool> Deletem2mClientResidence(m2m_client_residence m2M_Client_Residence)
         {
             m2mResidences.Remove(m2M_Client_Residence);
             try
