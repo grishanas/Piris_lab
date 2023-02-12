@@ -8,7 +8,6 @@ namespace lab.classes
     {
         [Key]
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string contract_id { get; set; }
 
         [Required]

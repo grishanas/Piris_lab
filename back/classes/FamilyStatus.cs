@@ -7,7 +7,6 @@ namespace lab.classes
     public class FamilyStatus
     {
         [Column("id_family_status")]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get;set;}
         public string status_name { get;set;}
     }

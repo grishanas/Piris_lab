@@ -8,7 +8,6 @@ namespace lab.classes
     {
         [Key]
         [Column("dis_id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
 
         public int id { get; set; }
         
