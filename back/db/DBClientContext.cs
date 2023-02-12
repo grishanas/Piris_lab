@@ -367,7 +367,7 @@ namespace lab.db
 
         private async Task<bool> DeleteDBClient(string id)
         {
-            var client = await dbClients.FirstAsync(x => x.id == id);
+            var client = dbClients.FirstOrDefault(x => x.id == id);
             if (client == null)
                 throw new NotExistException("client don't exist", @"id={id}");
             dbClients.Remove(client);
