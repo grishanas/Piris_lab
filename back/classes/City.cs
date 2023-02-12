@@ -9,7 +9,9 @@ namespace lab.classes
         [Column("id")]
         [Key]
         public int id { get; set; }
+
         [Column("name")]
+        [Required]
         public string name { get; set; }
     }
 }

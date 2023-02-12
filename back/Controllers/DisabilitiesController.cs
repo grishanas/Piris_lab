@@ -22,7 +22,7 @@ namespace lab.Controllers
         {
             try
             {
-                return Results.Json(_context.Disabilities.ToList(), statusCode: 200);
+                return Results.Json(await _context.GetDisabilities(), statusCode: 200);
             }
             catch (Exception e)
             {
