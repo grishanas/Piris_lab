@@ -23,7 +23,7 @@ namespace lab.Controllers
         {
             try
             {
-                var res = Results.Json(_context.GetCitizenships(), statusCode: 200) ;
+                var res = Results.Json(await _context.GetCitizenships(), statusCode: 200) ;
                 return res;
 
             }

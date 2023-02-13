@@ -7,7 +7,7 @@ namespace lab.db
 {
     public class DBCitezenshipContext:DbContext
     {
-        public DbSet<Citizenship> citizenships { get; }
+        public DbSet<Citizenship> citizenships { get; set; }
 
 
         public DBCitezenshipContext() : base()
@@ -22,19 +22,13 @@ namespace lab.db
         #region Add citezenship
         public async Task<bool> AddCitezenship(Citizenship citizenship)
         {
-            if (citizenship == null)
-                throw new ArgumentNullException();
-            var city = await citizenships.FirstOrDefaultAsync(x=>x.id==citizenship.id || x.nationality==citizenship.nationality);
-            if (city != null)
-            {
-                throw new DublicateException("there is already a member with this identifier",nameof(citizenship));
-            }
-
             citizenships.Add(citizenship);
+            
             try
             {
                 this.SaveChanges();
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw;
             }
@@ -44,7 +38,7 @@ namespace lab.db
         #endregion
 
         #region Get citezenships
-        public async Task<List<Citizenship>> GetCitizenships()
+        public async Task<List<Citizenship>>? GetCitizenships()
         {
             return await this.citizenships.ToListAsync();
         }

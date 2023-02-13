@@ -6,7 +6,7 @@ namespace lab.db
 {
     public class DBDisabilitiesContext:DbContext
     {
-        public DbSet<Disabilities> Disabilities { get; }
+        public DbSet<Disabilities> Disabilities { get; set; }
 
         public DBDisabilitiesContext() : base()
         {

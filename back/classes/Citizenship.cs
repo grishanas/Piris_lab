@@ -8,7 +8,9 @@ namespace lab.classes
     {
         [Key]
         [Column("citizenship_id")]
+        [Required]
         public int id { get; set; }
+
         [Column("nationality")]
         public string nationality { get; set; }
     }
