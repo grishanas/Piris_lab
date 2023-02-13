@@ -35,6 +35,7 @@
             this.tsmiRefreshClients = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDeleteClient = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAddClient = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiEditClient = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageCities = new System.Windows.Forms.TabPage();
             this.lboxCities = new System.Windows.Forms.ListBox();
             this.mstrCities = new System.Windows.Forms.MenuStrip();
@@ -50,15 +51,19 @@
             this.tsmiAddFamilyStatus = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEditFamilyStatus = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageCitizenships = new System.Windows.Forms.TabPage();
+            this.lboxCitizenships = new System.Windows.Forms.ListBox();
             this.mstrCitizenships = new System.Windows.Forms.MenuStrip();
             this.tsmiRefreshCitizenships = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.addToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeleteCitizenship = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAddCitizenship = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiEditCitizenship = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageDisabilities = new System.Windows.Forms.TabPage();
+            this.lboxDisabilities = new System.Windows.Forms.ListBox();
             this.mstrDisabilities = new System.Windows.Forms.MenuStrip();
-            this.refreshToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.addToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiRefreshDisabilities = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeleteDisability = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAddDisability = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiEditDisability = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlMain.SuspendLayout();
             this.tabPageClients.SuspendLayout();
             this.mstrClients.SuspendLayout();
@@ -116,7 +121,8 @@
             this.mstrClients.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiRefreshClients,
             this.tsmiDeleteClient,
-            this.tsmiAddClient});
+            this.tsmiAddClient,
+            this.tsmiEditClient});
             this.mstrClients.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.mstrClients.Location = new System.Drawing.Point(3, 3);
             this.mstrClients.Name = "mstrClients";
@@ -128,7 +134,7 @@
             this.tsmiRefreshClients.Name = "tsmiRefreshClients";
             this.tsmiRefreshClients.Size = new System.Drawing.Size(58, 19);
             this.tsmiRefreshClients.Text = "Refresh";
-            this.tsmiRefreshClients.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            this.tsmiRefreshClients.Click += new System.EventHandler(this.tsmiRefreshClients_Click);
             // 
             // tsmiDeleteClient
             // 
@@ -143,6 +149,12 @@
             this.tsmiAddClient.Size = new System.Drawing.Size(41, 19);
             this.tsmiAddClient.Text = "Add";
             this.tsmiAddClient.Click += new System.EventHandler(this.tsmiAddClient_Click);
+            // 
+            // tsmiEditClient
+            // 
+            this.tsmiEditClient.Name = "tsmiEditClient";
+            this.tsmiEditClient.Size = new System.Drawing.Size(39, 19);
+            this.tsmiEditClient.Text = "Edit";
             // 
             // tabPageCities
             // 
@@ -160,6 +172,7 @@
             this.lboxCities.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lboxCities.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lboxCities.FormattingEnabled = true;
+            this.lboxCities.HorizontalScrollbar = true;
             this.lboxCities.ItemHeight = 30;
             this.lboxCities.Location = new System.Drawing.Point(0, 23);
             this.lboxCities.Name = "lboxCities";
@@ -223,6 +236,7 @@
             this.lboxFamilyStatuses.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lboxFamilyStatuses.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lboxFamilyStatuses.FormattingEnabled = true;
+            this.lboxFamilyStatuses.HorizontalScrollbar = true;
             this.lboxFamilyStatuses.ItemHeight = 30;
             this.lboxFamilyStatuses.Location = new System.Drawing.Point(0, 23);
             this.lboxFamilyStatuses.Name = "lboxFamilyStatuses";
@@ -272,6 +286,7 @@
             // 
             // tabPageCitizenships
             // 
+            this.tabPageCitizenships.Controls.Add(this.lboxCitizenships);
             this.tabPageCitizenships.Controls.Add(this.mstrCitizenships);
             this.tabPageCitizenships.Location = new System.Drawing.Point(4, 24);
             this.tabPageCitizenships.Name = "tabPageCitizenships";
@@ -280,12 +295,25 @@
             this.tabPageCitizenships.Text = "Citizenships";
             this.tabPageCitizenships.UseVisualStyleBackColor = true;
             // 
+            // lboxCitizenships
+            // 
+            this.lboxCitizenships.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lboxCitizenships.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lboxCitizenships.FormattingEnabled = true;
+            this.lboxCitizenships.HorizontalScrollbar = true;
+            this.lboxCitizenships.ItemHeight = 30;
+            this.lboxCitizenships.Location = new System.Drawing.Point(0, 23);
+            this.lboxCitizenships.Name = "lboxCitizenships";
+            this.lboxCitizenships.Size = new System.Drawing.Size(792, 399);
+            this.lboxCitizenships.TabIndex = 1;
+            // 
             // mstrCitizenships
             // 
             this.mstrCitizenships.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiRefreshCitizenships,
-            this.deleteToolStripMenuItem1,
-            this.addToolStripMenuItem1});
+            this.tsmiDeleteCitizenship,
+            this.tsmiAddCitizenship,
+            this.tsmiEditCitizenship});
             this.mstrCitizenships.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.mstrCitizenships.Location = new System.Drawing.Point(0, 0);
             this.mstrCitizenships.Name = "mstrCitizenships";
@@ -297,21 +325,32 @@
             this.tsmiRefreshCitizenships.Name = "tsmiRefreshCitizenships";
             this.tsmiRefreshCitizenships.Size = new System.Drawing.Size(58, 19);
             this.tsmiRefreshCitizenships.Text = "Refresh";
+            this.tsmiRefreshCitizenships.Click += new System.EventHandler(this.tsmiRefreshCitizenships_Click);
             // 
-            // deleteToolStripMenuItem1
+            // tsmiDeleteCitizenship
             // 
-            this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(52, 19);
-            this.deleteToolStripMenuItem1.Text = "Delete";
+            this.tsmiDeleteCitizenship.Name = "tsmiDeleteCitizenship";
+            this.tsmiDeleteCitizenship.Size = new System.Drawing.Size(52, 19);
+            this.tsmiDeleteCitizenship.Text = "Delete";
+            this.tsmiDeleteCitizenship.Click += new System.EventHandler(this.tsmiDeleteCitizenship_Click);
             // 
-            // addToolStripMenuItem1
+            // tsmiAddCitizenship
             // 
-            this.addToolStripMenuItem1.Name = "addToolStripMenuItem1";
-            this.addToolStripMenuItem1.Size = new System.Drawing.Size(41, 19);
-            this.addToolStripMenuItem1.Text = "Add";
+            this.tsmiAddCitizenship.Name = "tsmiAddCitizenship";
+            this.tsmiAddCitizenship.Size = new System.Drawing.Size(41, 19);
+            this.tsmiAddCitizenship.Text = "Add";
+            this.tsmiAddCitizenship.Click += new System.EventHandler(this.tsmiAddCitizenship_Click);
+            // 
+            // tsmiEditCitizenship
+            // 
+            this.tsmiEditCitizenship.Name = "tsmiEditCitizenship";
+            this.tsmiEditCitizenship.Size = new System.Drawing.Size(39, 19);
+            this.tsmiEditCitizenship.Text = "Edit";
+            this.tsmiEditCitizenship.Click += new System.EventHandler(this.tsmiEditCitizenship_Click);
             // 
             // tabPageDisabilities
             // 
+            this.tabPageDisabilities.Controls.Add(this.lboxDisabilities);
             this.tabPageDisabilities.Controls.Add(this.mstrDisabilities);
             this.tabPageDisabilities.Location = new System.Drawing.Point(4, 24);
             this.tabPageDisabilities.Name = "tabPageDisabilities";
@@ -320,35 +359,58 @@
             this.tabPageDisabilities.Text = "Disabilities";
             this.tabPageDisabilities.UseVisualStyleBackColor = true;
             // 
+            // lboxDisabilities
+            // 
+            this.lboxDisabilities.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lboxDisabilities.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lboxDisabilities.FormattingEnabled = true;
+            this.lboxDisabilities.HorizontalScrollbar = true;
+            this.lboxDisabilities.ItemHeight = 30;
+            this.lboxDisabilities.Location = new System.Drawing.Point(0, 23);
+            this.lboxDisabilities.Name = "lboxDisabilities";
+            this.lboxDisabilities.Size = new System.Drawing.Size(792, 399);
+            this.lboxDisabilities.TabIndex = 1;
+            // 
             // mstrDisabilities
             // 
             this.mstrDisabilities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.refreshToolStripMenuItem1,
-            this.deleteToolStripMenuItem2,
-            this.addToolStripMenuItem2});
+            this.tsmiRefreshDisabilities,
+            this.tsmiDeleteDisability,
+            this.tsmiAddDisability,
+            this.tsmiEditDisability});
             this.mstrDisabilities.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.mstrDisabilities.Location = new System.Drawing.Point(0, 0);
             this.mstrDisabilities.Name = "mstrDisabilities";
             this.mstrDisabilities.Size = new System.Drawing.Size(792, 23);
             this.mstrDisabilities.TabIndex = 0;
             // 
-            // refreshToolStripMenuItem1
+            // tsmiRefreshDisabilities
             // 
-            this.refreshToolStripMenuItem1.Name = "refreshToolStripMenuItem1";
-            this.refreshToolStripMenuItem1.Size = new System.Drawing.Size(58, 19);
-            this.refreshToolStripMenuItem1.Text = "Refresh";
+            this.tsmiRefreshDisabilities.Name = "tsmiRefreshDisabilities";
+            this.tsmiRefreshDisabilities.Size = new System.Drawing.Size(58, 19);
+            this.tsmiRefreshDisabilities.Text = "Refresh";
+            this.tsmiRefreshDisabilities.Click += new System.EventHandler(this.tsmiRefreshDisabilities_Click);
             // 
-            // deleteToolStripMenuItem2
+            // tsmiDeleteDisability
             // 
-            this.deleteToolStripMenuItem2.Name = "deleteToolStripMenuItem2";
-            this.deleteToolStripMenuItem2.Size = new System.Drawing.Size(52, 19);
-            this.deleteToolStripMenuItem2.Text = "Delete";
+            this.tsmiDeleteDisability.Name = "tsmiDeleteDisability";
+            this.tsmiDeleteDisability.Size = new System.Drawing.Size(52, 19);
+            this.tsmiDeleteDisability.Text = "Delete";
+            this.tsmiDeleteDisability.Click += new System.EventHandler(this.tsmiDeleteDisability_Click);
             // 
-            // addToolStripMenuItem2
+            // tsmiAddDisability
             // 
-            this.addToolStripMenuItem2.Name = "addToolStripMenuItem2";
-            this.addToolStripMenuItem2.Size = new System.Drawing.Size(41, 19);
-            this.addToolStripMenuItem2.Text = "Add";
+            this.tsmiAddDisability.Name = "tsmiAddDisability";
+            this.tsmiAddDisability.Size = new System.Drawing.Size(41, 19);
+            this.tsmiAddDisability.Text = "Add";
+            this.tsmiAddDisability.Click += new System.EventHandler(this.tsmiAddDisability_Click);
+            // 
+            // tsmiEditDisability
+            // 
+            this.tsmiEditDisability.Name = "tsmiEditDisability";
+            this.tsmiEditDisability.Size = new System.Drawing.Size(39, 19);
+            this.tsmiEditDisability.Text = "Edit";
+            this.tsmiEditDisability.Click += new System.EventHandler(this.tsmiEditDisability_Click);
             // 
             // FormMain
             // 
@@ -409,14 +471,19 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiAddFamilyStatus;
         private System.Windows.Forms.MenuStrip mstrCitizenships;
         private System.Windows.Forms.ToolStripMenuItem tsmiRefreshCitizenships;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDeleteCitizenship;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddCitizenship;
         private System.Windows.Forms.MenuStrip mstrDisabilities;
-        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem tsmiRefreshDisabilities;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDeleteDisability;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddDisability;
         private System.Windows.Forms.ToolStripMenuItem tsmiEditCity;
         private System.Windows.Forms.ListBox lboxFamilyStatuses;
         private System.Windows.Forms.ToolStripMenuItem tsmiEditFamilyStatus;
+        private System.Windows.Forms.ToolStripMenuItem tsmiEditClient;
+        private System.Windows.Forms.ToolStripMenuItem tsmiEditCitizenship;
+        private System.Windows.Forms.ListBox lboxCitizenships;
+        private System.Windows.Forms.ToolStripMenuItem tsmiEditDisability;
+        private System.Windows.Forms.ListBox lboxDisabilities;
     }
 }

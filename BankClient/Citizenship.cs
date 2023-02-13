@@ -8,7 +8,7 @@ namespace BankClient
 {
     public class Citizenship
     {
-        public int citizenship_id { get; set; }
+        public int id { get; set; }
         public string nationality { get; set; }
         public override string ToString()
         {

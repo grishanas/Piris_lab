@@ -8,11 +8,11 @@ namespace BankClient
 {
     public class Disability
     {
-        public int dis_id { get; set; }
-        public string dis_name { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
         public override string ToString()
         {
-            return dis_name;
+            return name;
         }
     }
 }
