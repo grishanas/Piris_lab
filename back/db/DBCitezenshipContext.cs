@@ -64,7 +64,7 @@ namespace lab.db
             Citizenship citizen = null;
             try
             {
-                citizen = citizenships.FirstOrDefault(x => x.id == citizen.id);
+                citizen = citizenships.FirstOrDefault(x => x.id == citizenship.id);
 
             }
             catch (Exception e)
