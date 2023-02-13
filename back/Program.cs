@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using lab.db;
+using lab.TransactionController;
 
 namespace lab
 { 
@@ -18,7 +19,15 @@ namespace lab
             builder.Services.AddDbContext<DBClientContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
             builder.Services.AddDbContext<DBDisabilitiesContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
             builder.Services.AddDbContext<DBFamilyStatusContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBAccountCodeContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBAccountContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBAccountTypeContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBBalanceContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBCreditContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBDebitContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBCitezenshipContext> (optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
 
+            builder.Services.AddTransient<AccountTransactionController>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

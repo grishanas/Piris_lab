@@ -45,13 +45,13 @@ namespace lab.db
                 return disabilities;
         }
 
-        public async Task<List<Disabilities>> GetDisabilities()
+        public async Task<List<Disabilities>>? GetDisabilities()
         {
             var disabilities= await Disabilities.ToListAsync();
-            if (disabilities == null)
+/*            if (disabilities == null)
                 throw new Exception();
-            else
-                return disabilities;
+            else*/
+            return disabilities;
         }
         #endregion
 
