@@ -34,7 +34,30 @@ namespace BankClient
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            
+            if (FetchClients())
+            {
+                lboxClients.Items.AddRange(clients!.ToArray());
+            }
+
+            if (FetchCities())
+            {
+                lboxCities.Items.AddRange(cities!.ToArray());
+            }
+
+            if (FetchFamilyStatuses())
+            {
+                lboxFamilyStatuses.Items.AddRange(familyStatuses!.ToArray());
+            }
+
+            if (FetchCitizenships())
+            {
+                lboxCitizenships.Items.AddRange(citizenships!.ToArray());
+            }
+
+            if (FetchDisabilities())
+            {
+                lboxDisabilities.Items.AddRange(disabilities!.ToArray());
+            }
         }
 
         private bool FetchClients()
@@ -90,7 +113,7 @@ namespace BankClient
             return true;
         }
 
-        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tsmiRefreshClients_Click(object sender, EventArgs e)
         {
             lboxClients.Items.Clear();
 
@@ -517,13 +540,389 @@ namespace BankClient
 
         #region Citizenships
 
+        private bool FetchCitizenships()
+        {
+            string res;
+            bool success;
 
+            try
+            {
+                res = httpClient.GetRequestString(HttpMethod.Get, "api/citizenship/", out success);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to get citizenships");
+                return false;
+            }
+
+            citizenships = JsonSerializer.Deserialize<List<Citizenship>>(Utils.GetJSONValue(res));
+
+            return true;
+        }
+
+        private bool DeleteCitizenship(Citizenship citizenship)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Delete, "api/citizenship", JsonSerializer.Serialize(citizenship));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to delete citizenship");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool AddCitizenship(Citizenship citizenship)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Post, "api/citizenship", JsonSerializer.Serialize(citizenship));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to add citizenship");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool EditCitizenship(Citizenship citizenship)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Patch, "api/citizenship", JsonSerializer.Serialize(citizenship));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to edit citizenship");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void tsmiRefreshCitizenships_Click(object sender, EventArgs e)
+        {
+            lboxCitizenships.Items.Clear();
+
+            if (!FetchCitizenships())
+            {
+                return;
+            }
+
+            lboxCitizenships.Items.AddRange(citizenships!.ToArray());
+        }
+
+        private void tsmiDeleteCitizenship_Click(object sender, EventArgs e)
+        {
+            if (lboxCitizenships.SelectedIndex == -1)
+            {
+                MessageBox.Show("No citizenship selected");
+                return;
+            }
+
+            int selInd = lboxCitizenships.SelectedIndex;
+            Citizenship citizenship = citizenships![selInd];
+
+            if (!DeleteCitizenship(citizenship))
+            {
+                return;
+            }
+
+            lboxCitizenships.Items.Remove(citizenship);
+            citizenships!.RemoveAt(selInd);
+        }
+
+        private void tsmiAddCitizenship_Click(object sender, EventArgs e)
+        {
+            var frmTbox = new FormTextbox();
+
+            var dlgRes = frmTbox.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            var citizenship = new Citizenship()
+            {
+                nationality = frmTbox.InText
+            };
+
+            if (!AddCitizenship(citizenship))
+            {
+                return;
+            }
+
+            lboxCitizenships.Items.Clear();
+
+            if (!FetchCitizenships())
+            {
+                return;
+            }
+
+            lboxCitizenships.Items.AddRange(citizenships!.ToArray());
+        }
+
+        private void tsmiEditCitizenship_Click(object sender, EventArgs e)
+        {
+            if (lboxCitizenships.SelectedIndex == -1)
+            {
+                MessageBox.Show("No citizenship selected");
+                return;
+            }
+
+            int selInd = lboxCitizenships.SelectedIndex;
+            Citizenship citizenship = citizenships![selInd];
+            string oldName = citizenship.nationality;
+
+            var frmTbox = new FormTextbox
+            {
+                InText = oldName
+            };
+
+            var dlgRes = frmTbox.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            citizenship.nationality = frmTbox.InText;
+
+            if (!EditCitizenship(citizenship))
+            {
+                citizenship.nationality = oldName;
+                return;
+            }
+
+            lboxCitizenships.Items[selInd] = citizenship;
+        }
 
         #endregion
 
         #region Disabilities
 
+        private bool FetchDisabilities()
+        {
+            string res;
+            bool success;
 
+            try
+            {
+                res = httpClient.GetRequestString(HttpMethod.Get, "api/disabilities/", out success);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to get disabilities");
+                return false;
+            }
+
+            disabilities = JsonSerializer.Deserialize<List<Disability>>(Utils.GetJSONValue(res));
+
+            return true;
+        }
+
+        private bool DeleteDisability(Disability disability)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Delete, "api/disabilities", JsonSerializer.Serialize(disability));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to delete disability");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool AddDisability(Disability disability)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Post, "api/disabilities", JsonSerializer.Serialize(disability));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to add disability");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool EditDisability(Disability disability)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Patch, "api/disabilities", JsonSerializer.Serialize(disability));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to edit disability");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void tsmiRefreshDisabilities_Click(object sender, EventArgs e)
+        {
+            lboxDisabilities.Items.Clear();
+
+            if (!FetchDisabilities())
+            {
+                return;
+            }
+
+            lboxDisabilities.Items.AddRange(disabilities!.ToArray());
+        }
+
+        private void tsmiDeleteDisability_Click(object sender, EventArgs e)
+        {
+            if (lboxDisabilities.SelectedIndex == -1)
+            {
+                MessageBox.Show("No disability selected");
+                return;
+            }
+
+            int selInd = lboxDisabilities.SelectedIndex;
+            Disability disability = disabilities![selInd];
+
+            if (!DeleteDisability(disability))
+            {
+                return;
+            }
+
+            lboxDisabilities.Items.Remove(disability);
+            disabilities!.RemoveAt(selInd);
+        }
+
+        private void tsmiAddDisability_Click(object sender, EventArgs e)
+        {
+            var frmTbox = new FormTextbox();
+
+            var dlgRes = frmTbox.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            var disability = new Disability()
+            {
+                name = frmTbox.InText
+            };
+
+            if (!AddDisability(disability))
+            {
+                return;
+            }
+
+            lboxDisabilities.Items.Clear();
+
+            if (!FetchDisabilities())
+            {
+                return;
+            }
+
+            lboxDisabilities.Items.AddRange(disabilities!.ToArray());
+        }
+
+        private void tsmiEditDisability_Click(object sender, EventArgs e)
+        {
+            if (lboxDisabilities.SelectedIndex == -1)
+            {
+                MessageBox.Show("No disability selected");
+                return;
+            }
+
+            int selInd = lboxDisabilities.SelectedIndex;
+            Disability disability = disabilities![selInd];
+            string oldName = disability.name;
+
+            var frmTbox = new FormTextbox
+            {
+                InText = oldName
+            };
+
+            var dlgRes = frmTbox.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            disability.name = frmTbox.InText;
+
+            if (!EditDisability(disability))
+            {
+                disability.name = oldName;
+                return;
+            }
+
+            lboxDisabilities.Items[selInd] = disability;
+        }
 
         #endregion Disabilites
     }
