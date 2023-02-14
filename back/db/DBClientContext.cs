@@ -128,7 +128,7 @@ namespace lab.db
 
         #region Add Client
 
-        public async void AddDBClient(DBClient client)
+        public async Task<bool> AddDBClient(DBClient client)
         {
             if(client == null)
                 throw new ArgumentNullException("client");
@@ -170,6 +170,7 @@ namespace lab.db
             {
 
             }
+            return true;
         }
 
         public async Task<bool> AddCitiesOfLive(m2m_client_live client)
@@ -251,7 +252,7 @@ namespace lab.db
 
         public async Task<bool> AddClient(DBClient client)
         {
-            AddDBClient(client);
+            await AddDBClient(client);
             try
             {
                 this.SaveChanges();

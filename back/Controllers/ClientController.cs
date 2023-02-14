@@ -119,7 +119,7 @@ namespace lab.Controllers
             }
             catch (Exception e)
             {
-
+                return Results.Problem(e.Message);
             }
             return Results.Ok();
         }
