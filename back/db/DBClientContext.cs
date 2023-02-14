@@ -150,7 +150,7 @@ namespace lab.db
                 throw new InappropriateFormatException("client.passport_series","wrong length");
             
 
-            if (dbClients.FirstAsync(x=>x.passport_series==client.passport_series && x.passport_number==client.passport_number)!=null)
+            if (await dbClients.FirstAsync(x=>x.passport_series==client.passport_series && x.passport_number==client.passport_number)!=null)
             {
                 throw new DublicateException("dublicate client pasport series and pasport number","client pasport");
             }
