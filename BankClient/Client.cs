@@ -30,6 +30,11 @@ namespace BankClient
         public decimal? monthly_income { get; set; }
         public bool military_conscription { get; set; }
 
+        public Client GetClone()
+        {
+            return (Client)MemberwiseClone();
+        }
+
         public override string ToString()
         {
             return $"{first_name} {midle_name} {second_name}";

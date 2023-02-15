@@ -30,7 +30,20 @@ namespace BankClient
 
             isEdit = client != null;
 
-            Client = client ?? new Client();
+            if (isEdit)
+            {
+                Client = client!.GetClone();
+                FillFields();
+            }
+            else
+            {
+                Client = new Client();
+
+                for (int i = tabControlClient.TabPages.Count - 1; i >= 1; --i)
+                {
+                    tabControlClient.TabPages.RemoveAt(i);
+                }
+            }
 
             tbxId.ReadOnly = isEdit;
 
@@ -147,6 +160,30 @@ namespace BankClient
             Client.military_conscription = cboxConscription.Checked;
         }
 
+        private void FillFields()
+        {
+            tbxId.Text = Client.id;
+            tbxFirstName.Text = Client.first_name;
+            tbxMiddleName.Text = Client.midle_name;
+            tbxSecondName.Text = Client.second_name;
+            tbxBirthday.Text = Client.birthday.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            cboxSex.Checked = Client.sex;
+            tbxPassportSeries.Text = Client.passport_series;
+            tbxPassportNumber.Text = Client.passport_number;
+            tbxAuthority.Text = Client.authority;
+            tbxDateOfIssue.Text = Client.date_of_issue.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            tbxPlaceOfBirth.Text = Client.place_of_birth;
+            tbxMobilePhone.Text = Client.mobile_phone;
+            tbxHomePhone.Text = Client.home_phone;
+            tbxEmail.Text = Client.email;
+            tbxWorkplace.Text = Client.work_place;
+            tbxWorkPosition.Text = Client.work_position;
+            tbxAddressOfRegistration.Text = Client.address_of_registration;
+            cboxRetired.Checked = Client.retired;
+            tbxMonthlyIncome.Text = Client.monthly_income.ToString();
+            cboxConscription.Checked = Client.military_conscription;
+        }
+
         private bool AddClient()
         {
             bool success;
@@ -169,6 +206,28 @@ namespace BankClient
             return true;
         }
 
+        private bool EditClient()
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Patch, "api/client", JsonSerializer.Serialize(Client));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to edit client");
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnOK_Click(object sender, EventArgs e)
         {
             if (!CheckFields())
@@ -178,9 +237,19 @@ namespace BankClient
 
             GetFields();
 
-            if (!AddClient())
+            if (isEdit)
             {
-                return;
+                if (!EditClient())
+                {
+                    return;
+                }
+            }
+            else
+            {
+                if (!AddClient())
+                {
+                    return;
+                }
             }
 
             DialogResult = DialogResult.OK;

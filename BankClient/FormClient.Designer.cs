@@ -88,6 +88,7 @@
             this.tabControlClient.Controls.Add(this.tabPageDisability);
             this.tabControlClient.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlClient.Location = new System.Drawing.Point(0, 0);
+            this.tabControlClient.Multiline = true;
             this.tabControlClient.Name = "tabControlClient";
             this.tabControlClient.SelectedIndex = 0;
             this.tabControlClient.Size = new System.Drawing.Size(668, 240);

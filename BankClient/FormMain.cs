@@ -168,7 +168,28 @@ namespace BankClient
 
         private void tsmiEditClient_Click(object sender, EventArgs e)
         {
+            if (lboxClients.SelectedIndex == -1)
+            {
+                MessageBox.Show("No client selected");
+                return;
+            }
 
+            int selInd = lboxClients.SelectedIndex;
+            Client client = clients![selInd];
+
+            var frmClient = new FormClient(this, client);
+
+            var dlgRes = frmClient.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            client = frmClient.Client;
+
+            clients![selInd] = client;
+            lboxClients.Items[selInd] = client;
         }
 
         #region Cities
