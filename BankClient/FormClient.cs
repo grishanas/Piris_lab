@@ -30,10 +30,19 @@ namespace BankClient
 
             isEdit = client != null;
 
+            tbxId.ReadOnly = isEdit;
+
+            httpClient = frmMain.httpClient;
+            cities = frmMain.cities;
+            familyStatuses = frmMain.familyStatuses;
+            citizenships = frmMain.citizenships;
+            disabilities = frmMain.disabilities;
+
             if (isEdit)
             {
                 Client = client!.GetClone();
                 FillFields();
+                FillLists();
             }
             else
             {
@@ -44,14 +53,19 @@ namespace BankClient
                     tabControlClient.TabPages.RemoveAt(i);
                 }
             }
+        }
 
-            tbxId.ReadOnly = isEdit;
+        private void FillLists()
+        {
+            FillLive();
+        }
 
-            httpClient = frmMain.httpClient;
-            cities = frmMain.cities;
-            familyStatuses = frmMain.familyStatuses;
-            citizenships = frmMain.citizenships;
-            disabilities = frmMain.disabilities;
+        private void FillLive()
+        {
+            var liveCities = Client.live.Intersect(cities);
+
+            lboxLive.Items.Clear();
+            lboxLive.Items.AddRange(liveCities.ToArray());
         }
 
         private bool CheckFields()
@@ -259,5 +273,113 @@ namespace BankClient
         {
             DialogResult = DialogResult.Cancel;
         }
+
+        #region Live
+
+        private bool AddLive(ClientLive live)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Post, "AddM2MLive", JsonSerializer.Serialize(live));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to add live");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool DeleteLive(ClientLive live)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Delete, "DeleteM2MLive", JsonSerializer.Serialize(live));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to delete live");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void tsmiAddLive_Click(object sender, EventArgs e)
+        {
+            var frmChoice = new FormListChoose(cities);
+
+            var dlgRes = frmChoice.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            City? city = frmChoice.ChosenObject as City;
+
+            if (Client.live.Contains(city))
+            {
+                MessageBox.Show("Duplicate city");
+                return;
+            }
+
+            var live = new ClientLive()
+            {
+                city_id = city.id,
+                id = Client.id
+            };
+
+            if (!AddLive(live))
+            {
+                return;
+            }
+
+            Client.live.Add(city);
+            lboxLive.Items.Add(city);
+        }
+
+        private void tsmiDeleteLive_Click(object sender, EventArgs e)
+        {
+            if (lboxLive.SelectedIndex == -1)
+            {
+                MessageBox.Show("No live selected");
+                return;
+            }
+
+            int selInd = lboxLive.SelectedIndex;
+            City selCity = lboxLive.SelectedItem as City;
+
+            var live = new ClientLive()
+            {
+                city_id = selCity!.id,
+                id = Client.id
+            };
+
+            if (!DeleteLive(live))
+            {
+                return;
+            }
+
+            lboxLive.Items.Remove(selCity);
+            Client.live.RemoveAt(selInd);
+        }
+
+        #endregion
     }
 }

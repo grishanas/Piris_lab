@@ -30,6 +30,8 @@ namespace BankClient
         public decimal? monthly_income { get; set; }
         public bool military_conscription { get; set; }
 
+        public List<City> live { get; set; } = new List<City>();
+
         public Client GetClone()
         {
             return (Client)MemberwiseClone();

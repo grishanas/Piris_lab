@@ -70,12 +70,18 @@
             this.lblId = new System.Windows.Forms.Label();
             this.tbxId = new System.Windows.Forms.TextBox();
             this.tabPageLive = new System.Windows.Forms.TabPage();
+            this.lboxLive = new System.Windows.Forms.ListBox();
+            this.mstrLive = new System.Windows.Forms.MenuStrip();
+            this.tsmiAddLive = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeleteLive = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageResidence = new System.Windows.Forms.TabPage();
             this.tabPageFamily = new System.Windows.Forms.TabPage();
             this.tabPageCitizenship = new System.Windows.Forms.TabPage();
             this.tabPageDisability = new System.Windows.Forms.TabPage();
             this.tabControlClient.SuspendLayout();
             this.tabPageClient.SuspendLayout();
+            this.tabPageLive.SuspendLayout();
+            this.mstrLive.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlClient
@@ -488,6 +494,8 @@
             // 
             // tabPageLive
             // 
+            this.tabPageLive.Controls.Add(this.lboxLive);
+            this.tabPageLive.Controls.Add(this.mstrLive);
             this.tabPageLive.Location = new System.Drawing.Point(4, 24);
             this.tabPageLive.Name = "tabPageLive";
             this.tabPageLive.Padding = new System.Windows.Forms.Padding(3);
@@ -495,6 +503,41 @@
             this.tabPageLive.TabIndex = 1;
             this.tabPageLive.Text = "Live";
             this.tabPageLive.UseVisualStyleBackColor = true;
+            // 
+            // lboxLive
+            // 
+            this.lboxLive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lboxLive.FormattingEnabled = true;
+            this.lboxLive.ItemHeight = 15;
+            this.lboxLive.Location = new System.Drawing.Point(3, 26);
+            this.lboxLive.Name = "lboxLive";
+            this.lboxLive.Size = new System.Drawing.Size(654, 183);
+            this.lboxLive.TabIndex = 1;
+            // 
+            // mstrLive
+            // 
+            this.mstrLive.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAddLive,
+            this.tsmiDeleteLive});
+            this.mstrLive.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.mstrLive.Location = new System.Drawing.Point(3, 3);
+            this.mstrLive.Name = "mstrLive";
+            this.mstrLive.Size = new System.Drawing.Size(654, 23);
+            this.mstrLive.TabIndex = 0;
+            // 
+            // tsmiAddLive
+            // 
+            this.tsmiAddLive.Name = "tsmiAddLive";
+            this.tsmiAddLive.Size = new System.Drawing.Size(41, 19);
+            this.tsmiAddLive.Text = "Add";
+            this.tsmiAddLive.Click += new System.EventHandler(this.tsmiAddLive_Click);
+            // 
+            // tsmiDeleteLive
+            // 
+            this.tsmiDeleteLive.Name = "tsmiDeleteLive";
+            this.tsmiDeleteLive.Size = new System.Drawing.Size(52, 19);
+            this.tsmiDeleteLive.Text = "Delete";
+            this.tsmiDeleteLive.Click += new System.EventHandler(this.tsmiDeleteLive_Click);
             // 
             // tabPageResidence
             // 
@@ -538,11 +581,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(668, 240);
             this.Controls.Add(this.tabControlClient);
+            this.MainMenuStrip = this.mstrLive;
             this.Name = "FormClient";
             this.Text = "Client";
             this.tabControlClient.ResumeLayout(false);
             this.tabPageClient.ResumeLayout(false);
             this.tabPageClient.PerformLayout();
+            this.tabPageLive.ResumeLayout(false);
+            this.tabPageLive.PerformLayout();
+            this.mstrLive.ResumeLayout(false);
+            this.mstrLive.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -595,5 +643,9 @@
         private System.Windows.Forms.CheckBox cboxRetired;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.MenuStrip mstrLive;
+        private System.Windows.Forms.ListBox lboxLive;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddLive;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDeleteLive;
     }
 }
