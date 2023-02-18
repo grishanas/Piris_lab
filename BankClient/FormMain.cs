@@ -26,7 +26,7 @@ namespace BankClient
         }
 
         public readonly HttpClient httpClient;
-        private List<Client>? clients = null;
+        public List<Client>? clients = null;
         public List<City>? cities = null;
         public List<FamilyStatus>? familyStatuses = null;
         public List<Citizenship>? citizenships = null;

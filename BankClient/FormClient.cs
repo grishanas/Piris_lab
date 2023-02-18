@@ -16,8 +16,9 @@ namespace BankClient
 {
     public partial class FormClient : Form
     {
-        private bool isEdit = false;
+        private readonly bool isEdit = false;
         private readonly HttpClient httpClient;
+        private readonly List<Client>? clients;
         private readonly List<City>? cities;
         private readonly List<FamilyStatus>? familyStatuses;
         private readonly List<Citizenship>? citizenships;
@@ -33,6 +34,7 @@ namespace BankClient
             tbxId.ReadOnly = isEdit;
 
             httpClient = frmMain.httpClient;
+            clients = frmMain.clients;
             cities = frmMain.cities;
             familyStatuses = frmMain.familyStatuses;
             citizenships = frmMain.citizenships;
@@ -82,9 +84,23 @@ namespace BankClient
                 return false;
             }
 
+            if (clients!.Any(client => string.Equals(client.passport_series, tbxPassportSeries.Text, 
+                StringComparison.InvariantCulture)))
+            {
+                MessageBox.Show("Duplicate passport series");
+                return false;
+            }
+
             if (tbxPassportNumber.Text.Length != 9)
             {
                 MessageBox.Show("The passport number must be 9 symbols long");
+                return false;
+            }
+
+            if (clients!.Any(client => string.Equals(client.passport_number, tbxPassportNumber.Text,
+                StringComparison.InvariantCulture)))
+            {
+                MessageBox.Show("Duplicate passport number");
                 return false;
             }
 
