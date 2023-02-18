@@ -25,12 +25,12 @@ namespace BankClient
             };
         }
 
-        private readonly HttpClient httpClient;
-        private List<Client>? clients = null;
-        private List<City>? cities = null;
-        private List<FamilyStatus>? familyStatuses = null;
-        private List<Citizenship>? citizenships = null;
-        private List<Disability>? disabilities = null;
+        public readonly HttpClient httpClient;
+        public List<Client>? clients = null;
+        public List<City>? cities = null;
+        public List<FamilyStatus>? familyStatuses = null;
+        public List<Citizenship>? citizenships = null;
+        public List<Disability>? disabilities = null;
 
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -147,7 +147,49 @@ namespace BankClient
 
         private void tsmiAddClient_Click(object sender, EventArgs e)
         {
+            var frmClient = new FormClient(this);
 
+            var dlgRes = frmClient.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            lboxClients.Items.Clear();
+
+            if (!FetchClients())
+            {
+                return;
+            }
+
+            lboxClients.Items.AddRange(clients!.ToArray());
+        }
+
+        private void tsmiEditClient_Click(object sender, EventArgs e)
+        {
+            if (lboxClients.SelectedIndex == -1)
+            {
+                MessageBox.Show("No client selected");
+                return;
+            }
+
+            int selInd = lboxClients.SelectedIndex;
+            Client client = clients![selInd];
+
+            var frmClient = new FormClient(this, client);
+
+            var dlgRes = frmClient.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            client = frmClient.Client;
+
+            clients![selInd] = client;
+            lboxClients.Items[selInd] = client;
         }
 
         #region Cities

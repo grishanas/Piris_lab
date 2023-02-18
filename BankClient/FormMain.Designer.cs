@@ -155,6 +155,7 @@
             this.tsmiEditClient.Name = "tsmiEditClient";
             this.tsmiEditClient.Size = new System.Drawing.Size(39, 19);
             this.tsmiEditClient.Text = "Edit";
+            this.tsmiEditClient.Click += new System.EventHandler(this.tsmiEditClient_Click);
             // 
             // tabPageCities
             // 
