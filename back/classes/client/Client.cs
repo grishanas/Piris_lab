@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace lab.classes.client
 {
-    [Table("Client")]
+    [Table("natural_person")]
     public class DBClient
     {
         [Key]
@@ -32,6 +32,7 @@ namespace lab.classes.client
 
         public bool military_conscription { get; set; }
 
+        public long client_id { get; set; }
 
     }
 
@@ -43,6 +44,8 @@ namespace lab.classes.client
         public List<FamilyStatus> familyStatus { get; set; }
         public List<Disabilities> disabilities { get; set; }
         public List<Citizenship> citizenships { get; set; }
+
+        
 
         public Client(DBClient option)
         {
@@ -66,6 +69,7 @@ namespace lab.classes.client
             this.retired = option.retired;
             this.monthly_income = option.monthly_income;
             this.military_conscription = option.military_conscription;
+            this.client_id= option.client_id;
 
             live = null;
             residence = null;
@@ -73,6 +77,14 @@ namespace lab.classes.client
             disabilities = null;
             citizenships = null;
         }
+    }
+
+    [Table("Client")]
+    public class client
+    {
+        [Key]
+        public long client_id { get; set; } = 0;
+        public bool i { get; set; }= false;
 
     }
 

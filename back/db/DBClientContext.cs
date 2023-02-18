@@ -10,9 +10,12 @@ namespace lab.db
     {
         #region
         public DbSet<DBClient> dbClients { get; set; }
+
+        public DbSet<client> dbClientId { get; set; }
         
         public DbSet<FamilyStatus> familyStatuses { get; set; }
         public DbSet<Citizenship> citizenships { get; set; }
+
         public DbSet<Disabilities> Disabilities { get; set; }
         public DbSet<City> cities { get; set; }
 
@@ -44,7 +47,6 @@ namespace lab.db
             modelBuilder.Entity<m2m_client_Disabilities>().HasKey(m => new { m.id, m.dis_id });
             modelBuilder.Entity<m2m_client_live>().HasKey(m => new { m.id, m.city_id });
             modelBuilder.Entity<m2m_client_residence>().HasKey(m => new { m.id, m.city_id });
-
         }
         #endregion
         #region Get client
@@ -118,9 +120,9 @@ namespace lab.db
            {
                client.familyStatus = GetFamilyStatus(client.id);
                client.live = GetCitiesOfLive(client.id);
-                client.residence = GetCitiesOfResidences(client.id);
-                client.disabilities = GetDisabilities(client.id);
-                client.citizenships = GetCitizenships(client.id);
+               client.residence = GetCitiesOfResidences(client.id);
+               client.disabilities = GetDisabilities(client.id);
+               client.citizenships = GetCitizenships(client.id);
             });
             return clients;
         }
@@ -148,19 +150,26 @@ namespace lab.db
             }
             if (client.passport_series.Length != 2)
                 throw new InappropriateFormatException("client.passport_series","wrong length");
-            
 
-            if (await dbClients.FirstOrDefaultAsync(x=>x.passport_series==client.passport_series && x.passport_number==client.passport_number)!=null)
+
+            var passport_ser = client.passport_series;
+            var passport_num = client.passport_number;
+            if (await dbClients.FirstOrDefaultAsync(x=>x.passport_series== passport_ser && x.passport_number==passport_num)!=null)
             {
                 throw new DublicateException("dublicate client pasport series and pasport number","client pasport");
             }
-            
 
+            var clientID = new client();
+            dbClientId.Add(clientID);
+            try
+            {
+                this.SaveChanges();
+            }
+            catch (Exception e)
+            {
 
-
-
-
-
+            }
+            client.client_id = dbClientId.OrderBy(x=>x.client_id).Last().client_id;
             dbClients.Add(client);
             try
             {
@@ -252,6 +261,7 @@ namespace lab.db
 
         public async Task<bool> AddClient(DBClient client)
         {
+
             await AddDBClient(client);
             try
             {

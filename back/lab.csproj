@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="classes\Balance\" />
+    <Folder Include="Transaction\DBContext\" />
   </ItemGroup>
 
 </Project>
