@@ -1,9 +1,9 @@
 ﻿
 namespace BankClient
 {
-    public class ClientLive
+    public class ClientDisability
     {
         public string id { get; set; }
-        public int city_id { get; set; }
+        public int dis_id { get; set; }
     }
 }

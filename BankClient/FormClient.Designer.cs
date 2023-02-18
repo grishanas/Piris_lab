@@ -75,13 +75,37 @@
             this.tsmiAddLive = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDeleteLive = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageResidence = new System.Windows.Forms.TabPage();
+            this.lboxResidence = new System.Windows.Forms.ListBox();
+            this.mstrResidence = new System.Windows.Forms.MenuStrip();
+            this.tsmiAddResidence = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeleteResidence = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageFamily = new System.Windows.Forms.TabPage();
+            this.lboxFamily = new System.Windows.Forms.ListBox();
+            this.mstrFamily = new System.Windows.Forms.MenuStrip();
+            this.tsmiAddFimily = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeleteFamily = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageCitizenship = new System.Windows.Forms.TabPage();
+            this.lboxCitizenship = new System.Windows.Forms.ListBox();
+            this.mstrCitizenship = new System.Windows.Forms.MenuStrip();
+            this.tsmiAddCitizenship = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeleteCitizenship = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageDisability = new System.Windows.Forms.TabPage();
+            this.lboxDisability = new System.Windows.Forms.ListBox();
+            this.mstrDisability = new System.Windows.Forms.MenuStrip();
+            this.tsmiAddDisability = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeleteDisability = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlClient.SuspendLayout();
             this.tabPageClient.SuspendLayout();
             this.tabPageLive.SuspendLayout();
             this.mstrLive.SuspendLayout();
+            this.tabPageResidence.SuspendLayout();
+            this.mstrResidence.SuspendLayout();
+            this.tabPageFamily.SuspendLayout();
+            this.mstrFamily.SuspendLayout();
+            this.tabPageCitizenship.SuspendLayout();
+            this.mstrCitizenship.SuspendLayout();
+            this.tabPageDisability.SuspendLayout();
+            this.mstrDisability.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlClient
@@ -507,8 +531,9 @@
             // lboxLive
             // 
             this.lboxLive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lboxLive.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lboxLive.FormattingEnabled = true;
-            this.lboxLive.ItemHeight = 15;
+            this.lboxLive.ItemHeight = 30;
             this.lboxLive.Location = new System.Drawing.Point(3, 26);
             this.lboxLive.Name = "lboxLive";
             this.lboxLive.Size = new System.Drawing.Size(654, 183);
@@ -541,6 +566,8 @@
             // 
             // tabPageResidence
             // 
+            this.tabPageResidence.Controls.Add(this.lboxResidence);
+            this.tabPageResidence.Controls.Add(this.mstrResidence);
             this.tabPageResidence.Location = new System.Drawing.Point(4, 24);
             this.tabPageResidence.Name = "tabPageResidence";
             this.tabPageResidence.Size = new System.Drawing.Size(660, 212);
@@ -548,8 +575,48 @@
             this.tabPageResidence.Text = "Residence";
             this.tabPageResidence.UseVisualStyleBackColor = true;
             // 
+            // lboxResidence
+            // 
+            this.lboxResidence.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lboxResidence.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lboxResidence.FormattingEnabled = true;
+            this.lboxResidence.HorizontalScrollbar = true;
+            this.lboxResidence.ItemHeight = 30;
+            this.lboxResidence.Location = new System.Drawing.Point(0, 23);
+            this.lboxResidence.Name = "lboxResidence";
+            this.lboxResidence.Size = new System.Drawing.Size(660, 189);
+            this.lboxResidence.TabIndex = 1;
+            // 
+            // mstrResidence
+            // 
+            this.mstrResidence.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAddResidence,
+            this.tsmiDeleteResidence});
+            this.mstrResidence.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.mstrResidence.Location = new System.Drawing.Point(0, 0);
+            this.mstrResidence.Name = "mstrResidence";
+            this.mstrResidence.Size = new System.Drawing.Size(660, 23);
+            this.mstrResidence.TabIndex = 0;
+            this.mstrResidence.Text = "menuStrip1";
+            // 
+            // tsmiAddResidence
+            // 
+            this.tsmiAddResidence.Name = "tsmiAddResidence";
+            this.tsmiAddResidence.Size = new System.Drawing.Size(41, 19);
+            this.tsmiAddResidence.Text = "Add";
+            this.tsmiAddResidence.Click += new System.EventHandler(this.tsmiAddResidence_Click);
+            // 
+            // tsmiDeleteResidence
+            // 
+            this.tsmiDeleteResidence.Name = "tsmiDeleteResidence";
+            this.tsmiDeleteResidence.Size = new System.Drawing.Size(52, 19);
+            this.tsmiDeleteResidence.Text = "Delete";
+            this.tsmiDeleteResidence.Click += new System.EventHandler(this.tsmiDeleteResidence_Click);
+            // 
             // tabPageFamily
             // 
+            this.tabPageFamily.Controls.Add(this.lboxFamily);
+            this.tabPageFamily.Controls.Add(this.mstrFamily);
             this.tabPageFamily.Location = new System.Drawing.Point(4, 24);
             this.tabPageFamily.Name = "tabPageFamily";
             this.tabPageFamily.Size = new System.Drawing.Size(660, 212);
@@ -557,8 +624,48 @@
             this.tabPageFamily.Text = "Family";
             this.tabPageFamily.UseVisualStyleBackColor = true;
             // 
+            // lboxFamily
+            // 
+            this.lboxFamily.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lboxFamily.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lboxFamily.FormattingEnabled = true;
+            this.lboxFamily.HorizontalScrollbar = true;
+            this.lboxFamily.ItemHeight = 30;
+            this.lboxFamily.Location = new System.Drawing.Point(0, 23);
+            this.lboxFamily.Name = "lboxFamily";
+            this.lboxFamily.Size = new System.Drawing.Size(660, 189);
+            this.lboxFamily.TabIndex = 1;
+            // 
+            // mstrFamily
+            // 
+            this.mstrFamily.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAddFimily,
+            this.tsmiDeleteFamily});
+            this.mstrFamily.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.mstrFamily.Location = new System.Drawing.Point(0, 0);
+            this.mstrFamily.Name = "mstrFamily";
+            this.mstrFamily.Size = new System.Drawing.Size(660, 23);
+            this.mstrFamily.TabIndex = 0;
+            this.mstrFamily.Text = "menuStrip1";
+            // 
+            // tsmiAddFimily
+            // 
+            this.tsmiAddFimily.Name = "tsmiAddFimily";
+            this.tsmiAddFimily.Size = new System.Drawing.Size(41, 19);
+            this.tsmiAddFimily.Text = "Add";
+            this.tsmiAddFimily.Click += new System.EventHandler(this.tsmiAddFimily_Click);
+            // 
+            // tsmiDeleteFamily
+            // 
+            this.tsmiDeleteFamily.Name = "tsmiDeleteFamily";
+            this.tsmiDeleteFamily.Size = new System.Drawing.Size(52, 19);
+            this.tsmiDeleteFamily.Text = "Delete";
+            this.tsmiDeleteFamily.Click += new System.EventHandler(this.tsmiDeleteFamily_Click);
+            // 
             // tabPageCitizenship
             // 
+            this.tabPageCitizenship.Controls.Add(this.lboxCitizenship);
+            this.tabPageCitizenship.Controls.Add(this.mstrCitizenship);
             this.tabPageCitizenship.Location = new System.Drawing.Point(4, 24);
             this.tabPageCitizenship.Name = "tabPageCitizenship";
             this.tabPageCitizenship.Size = new System.Drawing.Size(660, 212);
@@ -566,14 +673,90 @@
             this.tabPageCitizenship.Text = "Citizenship";
             this.tabPageCitizenship.UseVisualStyleBackColor = true;
             // 
+            // lboxCitizenship
+            // 
+            this.lboxCitizenship.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lboxCitizenship.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lboxCitizenship.FormattingEnabled = true;
+            this.lboxCitizenship.HorizontalScrollbar = true;
+            this.lboxCitizenship.ItemHeight = 30;
+            this.lboxCitizenship.Location = new System.Drawing.Point(0, 23);
+            this.lboxCitizenship.Name = "lboxCitizenship";
+            this.lboxCitizenship.Size = new System.Drawing.Size(660, 189);
+            this.lboxCitizenship.TabIndex = 1;
+            // 
+            // mstrCitizenship
+            // 
+            this.mstrCitizenship.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAddCitizenship,
+            this.tsmiDeleteCitizenship});
+            this.mstrCitizenship.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.mstrCitizenship.Location = new System.Drawing.Point(0, 0);
+            this.mstrCitizenship.Name = "mstrCitizenship";
+            this.mstrCitizenship.Size = new System.Drawing.Size(660, 23);
+            this.mstrCitizenship.TabIndex = 0;
+            // 
+            // tsmiAddCitizenship
+            // 
+            this.tsmiAddCitizenship.Name = "tsmiAddCitizenship";
+            this.tsmiAddCitizenship.Size = new System.Drawing.Size(41, 19);
+            this.tsmiAddCitizenship.Text = "Add";
+            this.tsmiAddCitizenship.Click += new System.EventHandler(this.tsmiAddCitizenship_Click);
+            // 
+            // tsmiDeleteCitizenship
+            // 
+            this.tsmiDeleteCitizenship.Name = "tsmiDeleteCitizenship";
+            this.tsmiDeleteCitizenship.Size = new System.Drawing.Size(52, 19);
+            this.tsmiDeleteCitizenship.Text = "Delete";
+            this.tsmiDeleteCitizenship.Click += new System.EventHandler(this.tsmiDeleteCitizenship_Click);
+            // 
             // tabPageDisability
             // 
+            this.tabPageDisability.Controls.Add(this.lboxDisability);
+            this.tabPageDisability.Controls.Add(this.mstrDisability);
             this.tabPageDisability.Location = new System.Drawing.Point(4, 24);
             this.tabPageDisability.Name = "tabPageDisability";
             this.tabPageDisability.Size = new System.Drawing.Size(660, 212);
             this.tabPageDisability.TabIndex = 5;
             this.tabPageDisability.Text = "Disability";
             this.tabPageDisability.UseVisualStyleBackColor = true;
+            // 
+            // lboxDisability
+            // 
+            this.lboxDisability.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lboxDisability.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lboxDisability.FormattingEnabled = true;
+            this.lboxDisability.HorizontalScrollbar = true;
+            this.lboxDisability.ItemHeight = 30;
+            this.lboxDisability.Location = new System.Drawing.Point(0, 23);
+            this.lboxDisability.Name = "lboxDisability";
+            this.lboxDisability.Size = new System.Drawing.Size(660, 189);
+            this.lboxDisability.TabIndex = 1;
+            // 
+            // mstrDisability
+            // 
+            this.mstrDisability.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAddDisability,
+            this.tsmiDeleteDisability});
+            this.mstrDisability.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.mstrDisability.Location = new System.Drawing.Point(0, 0);
+            this.mstrDisability.Name = "mstrDisability";
+            this.mstrDisability.Size = new System.Drawing.Size(660, 23);
+            this.mstrDisability.TabIndex = 0;
+            // 
+            // tsmiAddDisability
+            // 
+            this.tsmiAddDisability.Name = "tsmiAddDisability";
+            this.tsmiAddDisability.Size = new System.Drawing.Size(41, 19);
+            this.tsmiAddDisability.Text = "Add";
+            this.tsmiAddDisability.Click += new System.EventHandler(this.tsmiAddDisability_Click);
+            // 
+            // tsmiDeleteDisability
+            // 
+            this.tsmiDeleteDisability.Name = "tsmiDeleteDisability";
+            this.tsmiDeleteDisability.Size = new System.Drawing.Size(52, 19);
+            this.tsmiDeleteDisability.Text = "Delete";
+            this.tsmiDeleteDisability.Click += new System.EventHandler(this.tsmiDeleteDisability_Click);
             // 
             // FormClient
             // 
@@ -591,6 +774,22 @@
             this.tabPageLive.PerformLayout();
             this.mstrLive.ResumeLayout(false);
             this.mstrLive.PerformLayout();
+            this.tabPageResidence.ResumeLayout(false);
+            this.tabPageResidence.PerformLayout();
+            this.mstrResidence.ResumeLayout(false);
+            this.mstrResidence.PerformLayout();
+            this.tabPageFamily.ResumeLayout(false);
+            this.tabPageFamily.PerformLayout();
+            this.mstrFamily.ResumeLayout(false);
+            this.mstrFamily.PerformLayout();
+            this.tabPageCitizenship.ResumeLayout(false);
+            this.tabPageCitizenship.PerformLayout();
+            this.mstrCitizenship.ResumeLayout(false);
+            this.mstrCitizenship.PerformLayout();
+            this.tabPageDisability.ResumeLayout(false);
+            this.tabPageDisability.PerformLayout();
+            this.mstrDisability.ResumeLayout(false);
+            this.mstrDisability.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -647,5 +846,21 @@
         private System.Windows.Forms.ListBox lboxLive;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddLive;
         private System.Windows.Forms.ToolStripMenuItem tsmiDeleteLive;
+        private System.Windows.Forms.ListBox lboxResidence;
+        private System.Windows.Forms.MenuStrip mstrResidence;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddResidence;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDeleteResidence;
+        private System.Windows.Forms.ListBox lboxFamily;
+        private System.Windows.Forms.MenuStrip mstrFamily;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddFimily;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDeleteFamily;
+        private System.Windows.Forms.ListBox lboxCitizenship;
+        private System.Windows.Forms.MenuStrip mstrCitizenship;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddCitizenship;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDeleteCitizenship;
+        private System.Windows.Forms.ListBox lboxDisability;
+        private System.Windows.Forms.MenuStrip mstrDisability;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddDisability;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDeleteDisability;
     }
 }

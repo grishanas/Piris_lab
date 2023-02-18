@@ -60,14 +60,45 @@ namespace BankClient
         private void FillLists()
         {
             FillLive();
+            FillResidence();
+            FillFamilyStatus();
+            FillCitizenships();
+            FillDisabilities();
         }
 
         private void FillLive()
         {
             var liveCities = Client.live.Intersect(cities);
 
-            lboxLive.Items.Clear();
             lboxLive.Items.AddRange(liveCities.ToArray());
+        }
+
+        private void FillResidence()
+        {
+            var residenceCities = Client.residence.Intersect(cities);
+
+            lboxResidence.Items.AddRange(residenceCities.ToArray());
+        }
+
+        private void FillFamilyStatus()
+        {
+            var statuses = Client.familyStatus.Intersect(familyStatuses);
+
+            lboxFamily.Items.AddRange(statuses.ToArray());
+        }
+
+        private void FillCitizenships()
+        {
+            var foundCitizenships = Client.citizenships.Intersect(citizenships);
+
+            lboxCitizenship.Items.AddRange(foundCitizenships.ToArray());
+        }
+
+        private void FillDisabilities()
+        {
+            var foundDisabilities = Client.disabilities.Intersect(disabilities);
+
+            lboxDisability.Items.AddRange(foundDisabilities.ToArray());
         }
 
         private bool CheckFields()
@@ -392,10 +423,440 @@ namespace BankClient
                 return;
             }
 
-            lboxLive.Items.Remove(selCity);
+            lboxLive.Items.RemoveAt(selInd);
             Client.live.RemoveAt(selInd);
         }
 
         #endregion
+
+        #region Residence
+
+        private bool AddResidence(ClientResidence residence)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Post, "AddM2MResidence", JsonSerializer.Serialize(residence));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to add residence");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool DeleteResidence(ClientResidence residence)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Delete, "DelteM2MResidence", JsonSerializer.Serialize(residence));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to delete residence");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void tsmiAddResidence_Click(object sender, EventArgs e)
+        {
+            var frmChoice = new FormListChoose(cities);
+
+            var dlgRes = frmChoice.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            City? city = frmChoice.ChosenObject as City;
+
+            if (Client.residence.Contains(city))
+            {
+                MessageBox.Show("Duplicate city");
+                return;
+            }
+
+            var residence = new ClientResidence()
+            {
+                city_id = city.id,
+                id = Client.id
+            };
+
+            if (!AddResidence(residence))
+            {
+                return;
+            }
+
+            Client.residence.Add(city);
+            lboxResidence.Items.Add(city);
+        }
+
+        private void tsmiDeleteResidence_Click(object sender, EventArgs e)
+        {
+            if (lboxResidence.SelectedIndex == -1)
+            {
+                MessageBox.Show("No residence selected");
+                return;
+            }
+
+            int selInd = lboxResidence.SelectedIndex;
+            City selCity = lboxResidence.SelectedItem as City;
+
+            var residence = new ClientResidence()
+            {
+                city_id = selCity!.id,
+                id = Client.id
+            };
+
+            if (!DeleteResidence(residence))
+            {
+                return;
+            }
+
+            lboxResidence.Items.RemoveAt(selInd);
+            Client.residence.RemoveAt(selInd);
+        }
+
+        #endregion
+
+        #region FamilyStatus
+
+        private bool AddFamilyStatus(ClientFamily family)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Post, "AddM2MFamily", JsonSerializer.Serialize(family));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to add family status");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool DeleteFamilyStatus(ClientFamily family)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Delete, "DeleteM2MFamily", JsonSerializer.Serialize(family));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to delete family status");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void tsmiAddFimily_Click(object sender, EventArgs e)
+        {
+            var frmChoice = new FormListChoose(familyStatuses);
+
+            var dlgRes = frmChoice.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            FamilyStatus? familyStatus = frmChoice.ChosenObject as FamilyStatus;
+
+            if (Client.familyStatus.Contains(familyStatus))
+            {
+                MessageBox.Show("Duplicate family status");
+                return;
+            }
+
+            var family = new ClientFamily()
+            {
+                id_family_status = familyStatus.id,
+                id = Client.id
+            };
+
+            if (!AddFamilyStatus(family))
+            {
+                return;
+            }
+
+            Client.familyStatus.Add(familyStatus);
+            lboxFamily.Items.Add(familyStatus);
+        }
+
+        private void tsmiDeleteFamily_Click(object sender, EventArgs e)
+        {
+            if (lboxFamily.SelectedIndex == -1)
+            {
+                MessageBox.Show("No family status selected");
+                return;
+            }
+
+            int selInd = lboxFamily.SelectedIndex;
+            FamilyStatus selStatus = lboxFamily.SelectedItem as FamilyStatus;
+
+            var family = new ClientFamily()
+            {
+                id_family_status = selStatus!.id,
+                id = Client.id
+            };
+
+            if (!DeleteFamilyStatus(family))
+            {
+                return;
+            }
+
+            lboxFamily.Items.RemoveAt(selInd);
+            Client.familyStatus.RemoveAt(selInd);
+        }
+
+
+        #endregion
+
+        #region Citizenship
+
+        private bool AddCitizenship(ClientCitizenship citizenship)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Post, "AddM2MCitezenship", JsonSerializer.Serialize(citizenship));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to add citizenship");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool DeleteCitizenship(ClientCitizenship citizenship)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Delete, "DelteM2MCitizenship", JsonSerializer.Serialize(citizenship));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to delete citizenship");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void tsmiAddCitizenship_Click(object sender, EventArgs e)
+        {
+            var frmChoice = new FormListChoose(citizenships);
+
+            var dlgRes = frmChoice.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            Citizenship? citizenship = frmChoice.ChosenObject as Citizenship;
+
+            if (Client.citizenships.Contains(citizenship))
+            {
+                MessageBox.Show("Duplicate citizenship");
+                return;
+            }
+
+            var clientCtz = new ClientCitizenship()
+            {
+                citizenship_id = citizenship.id,
+                id = Client.id
+            };
+
+            if (!AddCitizenship(clientCtz))
+            {
+                return;
+            }
+
+            Client.citizenships.Add(citizenship);
+            lboxCitizenship.Items.Add(citizenship);
+        }
+
+        private void tsmiDeleteCitizenship_Click(object sender, EventArgs e)
+        {
+            if (lboxCitizenship.SelectedIndex == -1)
+            {
+                MessageBox.Show("No citizenship selected");
+                return;
+            }
+
+            int selInd = lboxCitizenship.SelectedIndex;
+            Citizenship selCitizenship = lboxCitizenship.SelectedItem as Citizenship;
+
+            var clientCtz = new ClientCitizenship()
+            {
+                citizenship_id = selCitizenship.id,
+                id = Client.id
+            };
+
+            if (!DeleteCitizenship(clientCtz))
+            {
+                return;
+            }
+
+            lboxCitizenship.Items.RemoveAt(selInd);
+            Client.citizenships.RemoveAt(selInd);
+        }
+
+
+        #endregion
+
+        private bool AddDisability(ClientDisability disability)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Post, "AddM2MDisability", JsonSerializer.Serialize(disability));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to add disability");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool DeleteDisability(ClientDisability disability)
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Delete, "DeleteM2MDisability", JsonSerializer.Serialize(disability));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to delete disability");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void tsmiAddDisability_Click(object sender, EventArgs e)
+        {
+            var frmChoice = new FormListChoose(disabilities);
+
+            var dlgRes = frmChoice.ShowDialog();
+
+            if (dlgRes == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            Disability? selDisability = frmChoice.ChosenObject as Disability;
+
+            if (Client.disabilities.Contains(selDisability))
+            {
+                MessageBox.Show("Duplicate disability");
+                return;
+            }
+
+            var clientDsb = new ClientDisability()
+            {
+                dis_id = selDisability.id,
+                id = Client.id
+            };
+
+            if (!AddDisability(clientDsb))
+            {
+                return;
+            }
+
+            Client.disabilities.Add(selDisability);
+            lboxDisability.Items.Add(selDisability);
+        }
+
+        private void tsmiDeleteDisability_Click(object sender, EventArgs e)
+        {
+            if (lboxDisability.SelectedIndex == -1)
+            {
+                MessageBox.Show("No disability selected");
+                return;
+            }
+
+            int selInd = lboxDisability.SelectedIndex;
+            Disability selDisability = lboxDisability.SelectedItem as Disability;
+
+            var clientDsb = new ClientDisability()
+            {
+                dis_id = selDisability.id,
+                id = Client.id
+            };
+
+            if (!DeleteDisability(clientDsb))
+            {
+                return;
+            }
+
+            lboxDisability.Items.RemoveAt(selInd);
+            Client.disabilities.RemoveAt(selInd);
+        }
     }
 }

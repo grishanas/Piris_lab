@@ -31,6 +31,10 @@ namespace BankClient
         public bool military_conscription { get; set; }
 
         public List<City> live { get; set; } = new List<City>();
+        public List<City> residence { get; set; } = new List<City>();
+        public List<FamilyStatus> familyStatus { get; set; } = new List<FamilyStatus>();
+        public List<Citizenship> citizenships { get; set; } = new List<Citizenship>();
+        public List<Disability> disabilities { get; set; } = new List<Disability>();
 
         public Client GetClone()
         {
