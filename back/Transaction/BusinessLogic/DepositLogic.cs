@@ -94,7 +94,7 @@ namespace lab.Transaction.BusinessLogic
         protected bool IsValidCashInOutOperation(UserAccountID account)
         {
 
-            foreach (var i in Enum.GetValues(typeof(ValidOperation)))
+            foreach (int i in Enum.GetValues(typeof(ValidOperation)))
             {
                 if (account.account_code == i.ToString())
                     return true;
@@ -110,7 +110,7 @@ namespace lab.Transaction.BusinessLogic
 
         protected bool IsValidDeposit(UserAccountID account)
         {
-            foreach (var i in Enum.GetValues(typeof(ValidDeposit)))
+            foreach (int i in Enum.GetValues(typeof(ValidDeposit)))
             {
                 if (account.account_code == i.ToString())
                     return true;
@@ -302,22 +302,35 @@ namespace lab.Transaction.BusinessLogic
 
         public async Task<Balance>  BalanceCalculation(Account account)
         {
-            var deposit = new AccountID(account);
-            if (!IsValidDeposit(deposit))
-                throw new Exception();
-            
+            var acc1 = new AccountID(account);
             var time = DateTime.Now;
 
-            var oldBalance= await _dBBalanceContext.GetBalance(deposit,account.last_update);
-            var debit = _debitContext.GetAllTransactionForThePeriodSource(deposit,oldBalance.time, time);
+            var oldBalance = await _dBBalanceContext.GetBalance(acc1, account.last_update);
+            if (oldBalance == null)
+            {
+                oldBalance = new Balance(account) { count = 0 };
+            }
 
-            var credit = _creditContext.GetAllTransactionForThePeriodDestination(deposit, oldBalance.time, time);
+            var debit = _debitContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
+            if (debit == null)
+            {
+                debit = new List<Debit>();
+                debit.Add(new Debit() { count = 0 });
+            }
+            var credit = _creditContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
+            if (credit == null)
+            {
+                credit = new List<Credit>();
+                credit.Add(new Credit() { count = 0 });
+            }
+
+
 
             decimal creditAmount = 0;
-            decimal debitAmount = 0; 
-            if(credit!=null)
+            decimal debitAmount = 0;
+            if (credit != null)
                 credit.ForEach(x => creditAmount += x.count);
-            if(debit!=null)
+            if (debit != null)
                 debit.ForEach(x => debitAmount += x.count);
             var balance = new Balance(account) { count = oldBalance.count + creditAmount - debitAmount, time = time };
 
@@ -349,8 +362,23 @@ namespace lab.Transaction.BusinessLogic
                 throw new Exception();
             var time = DateTime.Now;
             var oldBalance = await _dBBalanceContext.GetBalance(deposit, account.last_update);
+            if (oldBalance == null)
+            {
+                oldBalance = new Balance(account) { count = 0 };
+            }
+
             var debit = _debitContext.GetAllTransactionForThePeriodSource(deposit, oldBalance.time, time);
+            if (debit == null)
+            {
+                debit = new List<Debit>();
+                debit.Add(new Debit() { count = 0 });
+            }
             var credit = _creditContext.GetAllTransactionForThePeriodDestination(deposit, oldBalance.time, time);
+            if (credit == null)
+            {
+                credit = new List<Credit>();
+                credit.Add(new Credit() { count = 0 });
+            }
 
             if (DateOnly.FromDateTime(account.end_date) == DateOnly.FromDateTime(DateTime.Now))
             {
@@ -364,11 +392,19 @@ namespace lab.Transaction.BusinessLogic
                 CreateOperation(await _accounts.GetAccountFromCode("7327"),account, amount);
                 await SaveBalance(account, amount);
             }
-            debit.ForEach(x =>
+            for (int i = 0; i < debit.Count;)
             {
-                if (x.account_destination_code == "7327")
-                    debit.Remove(x);
-            });
+
+                if (debit[i].account_destination_code == "7327")
+                {
+                    debit.Remove(debit[i]);
+                    i--;
+                }
+                i++;
+
+            }
+               
+         
 
             
 

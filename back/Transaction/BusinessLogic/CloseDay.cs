@@ -28,7 +28,7 @@ namespace lab.Transaction.BusinessLogic
 
         private bool IsDeposit(Account account)
         {
-            foreach (var i in Enum.GetValues(typeof(Deposit)))
+            foreach (int i in Enum.GetValues(typeof(Deposit)))
             {
                 if (account.account_code == i.ToString())
                     return true;
@@ -38,14 +38,11 @@ namespace lab.Transaction.BusinessLogic
         public async Task<bool> Closeday()
         {
             var acs = _accounts.Accounts.ToList();
-            acs.ForEach(async x =>
+            foreach(var i in acs)
             {
-                if (IsDeposit(x))
-                {
-                    await _depositLogic.CloseDay(x);
-                }
+                if (IsDeposit(i))
+                    await _depositLogic.CloseDay(i);
             }
-            );
 
 
             return true;
