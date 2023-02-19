@@ -17,12 +17,14 @@ namespace BankClient
     public partial class FormClient : Form
     {
         private readonly bool isEdit = false;
-        private readonly HttpClient httpClient;
+        public readonly HttpClient httpClient;
         private readonly List<Client>? clients;
         private readonly List<City>? cities;
         private readonly List<FamilyStatus>? familyStatuses;
         private readonly List<Citizenship>? citizenships;
         private readonly List<Disability>? disabilities;
+        public readonly List<CurrencyType>? currencies;
+        public readonly List<AccountCode>? accountCodes;
         public Client Client { get; private set; }
 
         public FormClient(FormMain frmMain, Client? client = null)
@@ -39,6 +41,8 @@ namespace BankClient
             familyStatuses = frmMain.familyStatuses;
             citizenships = frmMain.citizenships;
             disabilities = frmMain.disabilities;
+            currencies = frmMain.currencies;
+            accountCodes = frmMain.accountCodes;
 
             if (isEdit)
             {
@@ -755,6 +759,8 @@ namespace BankClient
 
         #endregion
 
+        #region Disability
+
         private bool AddDisability(ClientDisability disability)
         {
             bool success;
@@ -857,6 +863,15 @@ namespace BankClient
 
             lboxDisability.Items.RemoveAt(selInd);
             Client.disabilities.RemoveAt(selInd);
+        }
+
+        #endregion
+
+        private void tsmiAddDeposit_Click(object sender, EventArgs e)
+        {
+            var frmClient = new FormDeposit(this);
+
+            var dlgRes = frmClient.ShowDialog();
         }
     }
 }
