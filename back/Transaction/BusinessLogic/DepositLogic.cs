@@ -118,27 +118,6 @@ namespace lab.Transaction.BusinessLogic
             throw new Exception();
         }
 
-
-
-        public async Task<bool> CashIn(UserAccountID source, UserAccountID destination,decimal amount)
-        {
-            if(!IsValidCashInOutOperation(source))
-                throw new Exception();
-            if(!IsValidDeposit(destination))
-                throw new Exception();
-
-            var SourceAcc = await _accounts.GetAccount(new AccountID(source) { account_type = Active }) ;
-            var DestinationAcc = await _accounts.GetAccount(new AccountID(destination) { account_type = Passive });
-
-            if (SourceAcc == null || DestinationAcc == null)
-                throw new Exception();
-            if ((DateOnly.FromDateTime(DestinationAcc.start_date) > DateOnly.FromDateTime(DateTime.Now)) || (DateOnly.FromDateTime(DestinationAcc.end_date) <= DateOnly.FromDateTime(DateTime.Now)))
-                throw new Exception();
-
-            CreateOperation(SourceAcc, DestinationAcc, amount);
-            return true;
-        }
-
         public async Task<bool> SendToFund(Account source)
         {
             var balance = await  BalanceCalculation(source);
@@ -389,7 +368,7 @@ namespace lab.Transaction.BusinessLogic
                         amount.count+= x.count;
                 });
                 amount.time = time;
-                CreateOperation(await _accounts.GetAccountFromCode("7327"),account, amount);
+                CreateOperation(await _accounts.GetAccountFromCode("7327"), account, amount);
                 await SaveBalance(account, amount);
             }
             for (int i = 0; i < debit.Count;)

@@ -33,5 +33,17 @@ namespace lab.Transaction.controller
             return Results.Ok();
 
         }
+
+        [HttpGet("GetAccounts")]
+        public async Task<IResult> GetAccounts()
+        {
+            try
+            {
+                return Results.Json(await _context.GetAccounts());
+            }catch(Exception e)
+            {
+                return Results.Problem();
+            }
+        }
     }
 }

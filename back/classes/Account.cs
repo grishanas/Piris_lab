@@ -59,8 +59,44 @@ namespace lab.classes
         }
     }
 
+    public class SendAccount
+    {
+        [Required]
+        public string account_id { get; set; }
 
-    [Table("Account")]
+        public string bank_name { get; set; }
+
+        public DateTime start_date { get; set; }
+
+        public DateTime end_date { get; set; }
+
+        public DateTime deadline { get; set; }
+        public float interest_rate { get; set; }
+
+        public type_of_currency currency_type { get; set; }
+
+        public Account_code account_code { get; set; }
+
+        public Account_type account_type { get; set; }
+
+        public Balance balance { get; set; }
+        [Required]
+        public long client_id { get; set; }
+
+        public SendAccount(Account acc)
+        {
+            this.account_id = acc.account_id;
+            this.bank_name = acc.bank_name;
+            this.start_date = acc.start_date;
+            this.end_date = acc.end_date;
+            this.deadline = acc.deadline;
+            this.interest_rate = acc.interest_rate;
+            this.client_id = acc.client_id;
+        }
+    }
+
+
+        [Table("Account")]
     public class Account
     {
         [Required]

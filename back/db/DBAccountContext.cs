@@ -9,14 +9,22 @@ namespace lab.db
     {
         public DbSet<Account> Accounts { get; set; }
         private readonly DBClientContext _dbClientContext;
+        private readonly DBAccountCodeContext _dbCodeContext;
+        private readonly DBAccountTypeContext _dBAccountTypeContext;
+        private readonly DBTypeOfCurrencyContext _dBTypeOfCurrencyContext;
+        private readonly DBBalanceContext _dBBalanceContext;
 
         public DBAccountContext() : base()
         {
 
         }
-        public DBAccountContext(DbContextOptions<DBAccountContext> options, DBClientContext dbClientContext) : base(options)
+        public DBAccountContext(DbContextOptions<DBAccountContext> options, DBClientContext dbClientContext, DBAccountCodeContext dbCodeContext, DBAccountTypeContext dBAccountTypeContext, DBTypeOfCurrencyContext dBTypeOfCurrencyContext, DBBalanceContext dBBalanceContext) : base(options)
         {
             _dbClientContext = dbClientContext;
+            _dbCodeContext = dbCodeContext;
+            _dBAccountTypeContext = dBAccountTypeContext;
+            _dBTypeOfCurrencyContext = dBTypeOfCurrencyContext;
+            _dBBalanceContext = dBBalanceContext;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -88,9 +96,20 @@ namespace lab.db
 
         #region Get account
 
-        public async Task<List<Account>> GetAccounts()
+        public async Task<List<SendAccount>> GetAccounts()
         {
-            return await Accounts.ToListAsync();
+            var accounts = await Accounts.ToListAsync();
+            var accs = new List<SendAccount>();
+            foreach(var account in accounts)
+            {
+                var sendAcc = new SendAccount(account);
+                sendAcc.account_type = await _dBAccountTypeContext.GetCode(account.account_type);
+                sendAcc.account_code = await _dbCodeContext.GetCode(account.account_code);
+                sendAcc.currency_type = await _dBTypeOfCurrencyContext.GetCurrency(account.currency_type);
+                accs.Add(sendAcc);
+            }
+            return accs;
+
         }
 
         public async Task<Account> GetAccount(long client_id)
