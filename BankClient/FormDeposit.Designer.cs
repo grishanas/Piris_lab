@@ -139,6 +139,7 @@
             // 
             this.tbxStartDate.Location = new System.Drawing.Point(107, 70);
             this.tbxStartDate.Name = "tbxStartDate";
+            this.tbxStartDate.PlaceholderText = "01/01/2001";
             this.tbxStartDate.Size = new System.Drawing.Size(100, 23);
             this.tbxStartDate.TabIndex = 10;
             // 
@@ -146,6 +147,7 @@
             // 
             this.tbxEndDate.Location = new System.Drawing.Point(107, 99);
             this.tbxEndDate.Name = "tbxEndDate";
+            this.tbxEndDate.PlaceholderText = "01/01/2001";
             this.tbxEndDate.Size = new System.Drawing.Size(100, 23);
             this.tbxEndDate.TabIndex = 11;
             // 
@@ -153,6 +155,7 @@
             // 
             this.tbxDeadline.Location = new System.Drawing.Point(107, 128);
             this.tbxDeadline.Name = "tbxDeadline";
+            this.tbxDeadline.PlaceholderText = "01/01/2001";
             this.tbxDeadline.Size = new System.Drawing.Size(100, 23);
             this.tbxDeadline.TabIndex = 12;
             // 
@@ -160,6 +163,7 @@
             // 
             this.tbxInterestRate.Location = new System.Drawing.Point(107, 157);
             this.tbxInterestRate.Name = "tbxInterestRate";
+            this.tbxInterestRate.PlaceholderText = "0,05";
             this.tbxInterestRate.Size = new System.Drawing.Size(100, 23);
             this.tbxInterestRate.TabIndex = 13;
             // 

@@ -871,7 +871,7 @@ namespace BankClient
         {
             var frmClient = new FormDeposit(this);
 
-            var dlgRes = frmClient.ShowDialog();
+            frmClient.ShowDialog();
         }
     }
 }

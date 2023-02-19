@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageClients = new System.Windows.Forms.TabPage();
             this.lboxClients = new System.Windows.Forms.ListBox();
@@ -64,6 +66,12 @@
             this.tsmiDeleteDisability = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAddDisability = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEditDisability = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPageAccounts = new System.Windows.Forms.TabPage();
+            this.dgvAccounts = new System.Windows.Forms.DataGridView();
+            this.mstrAccounts = new System.Windows.Forms.MenuStrip();
+            this.tsmiRefreshAccounts = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPageAdmin = new System.Windows.Forms.TabPage();
+            this.btnCloseDay = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPageClients.SuspendLayout();
             this.mstrClients.SuspendLayout();
@@ -75,6 +83,10 @@
             this.mstrCitizenships.SuspendLayout();
             this.tabPageDisabilities.SuspendLayout();
             this.mstrDisabilities.SuspendLayout();
+            this.tabPageAccounts.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).BeginInit();
+            this.mstrAccounts.SuspendLayout();
+            this.tabPageAdmin.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -84,6 +96,8 @@
             this.tabControlMain.Controls.Add(this.tabPageFamilyStatuses);
             this.tabControlMain.Controls.Add(this.tabPageCitizenships);
             this.tabControlMain.Controls.Add(this.tabPageDisabilities);
+            this.tabControlMain.Controls.Add(this.tabPageAccounts);
+            this.tabControlMain.Controls.Add(this.tabPageAdmin);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Multiline = true;
@@ -413,6 +427,87 @@
             this.tsmiEditDisability.Text = "Edit";
             this.tsmiEditDisability.Click += new System.EventHandler(this.tsmiEditDisability_Click);
             // 
+            // tabPageAccounts
+            // 
+            this.tabPageAccounts.Controls.Add(this.dgvAccounts);
+            this.tabPageAccounts.Controls.Add(this.mstrAccounts);
+            this.tabPageAccounts.Location = new System.Drawing.Point(4, 24);
+            this.tabPageAccounts.Name = "tabPageAccounts";
+            this.tabPageAccounts.Size = new System.Drawing.Size(792, 422);
+            this.tabPageAccounts.TabIndex = 6;
+            this.tabPageAccounts.Text = "Accounts";
+            this.tabPageAccounts.UseVisualStyleBackColor = true;
+            // 
+            // dgvAccounts
+            // 
+            this.dgvAccounts.AllowUserToAddRows = false;
+            this.dgvAccounts.AllowUserToDeleteRows = false;
+            this.dgvAccounts.AllowUserToResizeRows = false;
+            this.dgvAccounts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvAccounts.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAccounts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvAccounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAccounts.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvAccounts.Location = new System.Drawing.Point(0, 24);
+            this.dgvAccounts.Name = "dgvAccounts";
+            this.dgvAccounts.ReadOnly = true;
+            this.dgvAccounts.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dgvAccounts.RowTemplate.Height = 25;
+            this.dgvAccounts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvAccounts.Size = new System.Drawing.Size(792, 398);
+            this.dgvAccounts.TabIndex = 1;
+            // 
+            // mstrAccounts
+            // 
+            this.mstrAccounts.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRefreshAccounts});
+            this.mstrAccounts.Location = new System.Drawing.Point(0, 0);
+            this.mstrAccounts.Name = "mstrAccounts";
+            this.mstrAccounts.Size = new System.Drawing.Size(792, 24);
+            this.mstrAccounts.TabIndex = 0;
+            // 
+            // tsmiRefreshAccounts
+            // 
+            this.tsmiRefreshAccounts.Name = "tsmiRefreshAccounts";
+            this.tsmiRefreshAccounts.Size = new System.Drawing.Size(58, 20);
+            this.tsmiRefreshAccounts.Text = "Refresh";
+            this.tsmiRefreshAccounts.Click += new System.EventHandler(this.tsmiRefreshAccounts_Click);
+            // 
+            // tabPageAdmin
+            // 
+            this.tabPageAdmin.Controls.Add(this.btnCloseDay);
+            this.tabPageAdmin.Location = new System.Drawing.Point(4, 24);
+            this.tabPageAdmin.Name = "tabPageAdmin";
+            this.tabPageAdmin.Size = new System.Drawing.Size(792, 422);
+            this.tabPageAdmin.TabIndex = 5;
+            this.tabPageAdmin.Text = "Admin";
+            this.tabPageAdmin.UseVisualStyleBackColor = true;
+            // 
+            // btnCloseDay
+            // 
+            this.btnCloseDay.Location = new System.Drawing.Point(8, 14);
+            this.btnCloseDay.Name = "btnCloseDay";
+            this.btnCloseDay.Size = new System.Drawing.Size(75, 23);
+            this.btnCloseDay.TabIndex = 0;
+            this.btnCloseDay.Text = "Close day";
+            this.btnCloseDay.UseVisualStyleBackColor = true;
+            this.btnCloseDay.Click += new System.EventHandler(this.btnCloseDay_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -444,6 +539,12 @@
             this.tabPageDisabilities.PerformLayout();
             this.mstrDisabilities.ResumeLayout(false);
             this.mstrDisabilities.PerformLayout();
+            this.tabPageAccounts.ResumeLayout(false);
+            this.tabPageAccounts.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAccounts)).EndInit();
+            this.mstrAccounts.ResumeLayout(false);
+            this.mstrAccounts.PerformLayout();
+            this.tabPageAdmin.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -486,5 +587,11 @@
         private System.Windows.Forms.ListBox lboxCitizenships;
         private System.Windows.Forms.ToolStripMenuItem tsmiEditDisability;
         private System.Windows.Forms.ListBox lboxDisabilities;
+        private System.Windows.Forms.TabPage tabPageAdmin;
+        private System.Windows.Forms.Button btnCloseDay;
+        private System.Windows.Forms.TabPage tabPageAccounts;
+        private System.Windows.Forms.MenuStrip mstrAccounts;
+        private System.Windows.Forms.ToolStripMenuItem tsmiRefreshAccounts;
+        private System.Windows.Forms.DataGridView dgvAccounts;
     }
 }
