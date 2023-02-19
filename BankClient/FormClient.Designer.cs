@@ -94,6 +94,9 @@
             this.mstrDisability = new System.Windows.Forms.MenuStrip();
             this.tsmiAddDisability = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDeleteDisability = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPageDeposit = new System.Windows.Forms.TabPage();
+            this.mstrDeposit = new System.Windows.Forms.MenuStrip();
+            this.tsmiAddDeposit = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlClient.SuspendLayout();
             this.tabPageClient.SuspendLayout();
             this.tabPageLive.SuspendLayout();
@@ -106,6 +109,8 @@
             this.mstrCitizenship.SuspendLayout();
             this.tabPageDisability.SuspendLayout();
             this.mstrDisability.SuspendLayout();
+            this.tabPageDeposit.SuspendLayout();
+            this.mstrDeposit.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlClient
@@ -116,6 +121,7 @@
             this.tabControlClient.Controls.Add(this.tabPageFamily);
             this.tabControlClient.Controls.Add(this.tabPageCitizenship);
             this.tabControlClient.Controls.Add(this.tabPageDisability);
+            this.tabControlClient.Controls.Add(this.tabPageDeposit);
             this.tabControlClient.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlClient.Location = new System.Drawing.Point(0, 0);
             this.tabControlClient.Multiline = true;
@@ -758,6 +764,33 @@
             this.tsmiDeleteDisability.Text = "Delete";
             this.tsmiDeleteDisability.Click += new System.EventHandler(this.tsmiDeleteDisability_Click);
             // 
+            // tabPageDeposit
+            // 
+            this.tabPageDeposit.Controls.Add(this.mstrDeposit);
+            this.tabPageDeposit.Location = new System.Drawing.Point(4, 24);
+            this.tabPageDeposit.Name = "tabPageDeposit";
+            this.tabPageDeposit.Size = new System.Drawing.Size(660, 212);
+            this.tabPageDeposit.TabIndex = 6;
+            this.tabPageDeposit.Text = "Deposit";
+            this.tabPageDeposit.UseVisualStyleBackColor = true;
+            // 
+            // mstrDeposit
+            // 
+            this.mstrDeposit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAddDeposit});
+            this.mstrDeposit.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.mstrDeposit.Location = new System.Drawing.Point(0, 0);
+            this.mstrDeposit.Name = "mstrDeposit";
+            this.mstrDeposit.Size = new System.Drawing.Size(660, 23);
+            this.mstrDeposit.TabIndex = 0;
+            // 
+            // tsmiAddDeposit
+            // 
+            this.tsmiAddDeposit.Name = "tsmiAddDeposit";
+            this.tsmiAddDeposit.Size = new System.Drawing.Size(41, 19);
+            this.tsmiAddDeposit.Text = "Add";
+            this.tsmiAddDeposit.Click += new System.EventHandler(this.tsmiAddDeposit_Click);
+            // 
             // FormClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -790,6 +823,10 @@
             this.tabPageDisability.PerformLayout();
             this.mstrDisability.ResumeLayout(false);
             this.mstrDisability.PerformLayout();
+            this.tabPageDeposit.ResumeLayout(false);
+            this.tabPageDeposit.PerformLayout();
+            this.mstrDeposit.ResumeLayout(false);
+            this.mstrDeposit.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -862,5 +899,8 @@
         private System.Windows.Forms.MenuStrip mstrDisability;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddDisability;
         private System.Windows.Forms.ToolStripMenuItem tsmiDeleteDisability;
+        private System.Windows.Forms.TabPage tabPageDeposit;
+        private System.Windows.Forms.MenuStrip mstrDeposit;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddDeposit;
     }
 }

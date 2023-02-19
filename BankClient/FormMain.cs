@@ -31,6 +31,8 @@ namespace BankClient
         public List<FamilyStatus>? familyStatuses = null;
         public List<Citizenship>? citizenships = null;
         public List<Disability>? disabilities = null;
+        public List<CurrencyType>? currencies = null;
+        public List<AccountCode>? accountCodes = null;
 
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -58,6 +60,63 @@ namespace BankClient
             {
                 lboxDisabilities.Items.AddRange(disabilities!.ToArray());
             }
+
+            FetchCurrencies();
+            FetchAccountCodes();
+        }
+
+        private bool FetchAccountCodes()
+        {
+            string res;
+            bool success;
+
+            try
+            {
+                res = httpClient.GetRequestString(HttpMethod.Get, "api/AccountCode", out success);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to get account codes");
+                return false;
+            }
+
+            accountCodes = JsonSerializer.Deserialize<List<AccountCode>>(res);
+
+            return true;
+        }
+
+        private bool FetchCurrencies()
+        {
+            string res;
+            bool success;
+
+            try
+            {
+                res = httpClient.GetRequestString(HttpMethod.Get, "api/Currency/", out success);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to get currency types");
+                return false;
+            }
+
+            var node = Utils.GetJSONValue(res);
+
+            currencies = JsonSerializer.Deserialize<List<CurrencyType>>(node);
+
+            return true;
         }
 
         private bool FetchClients()
