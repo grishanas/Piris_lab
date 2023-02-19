@@ -21,7 +21,7 @@ namespace lab.db
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>().HasKey(m => new { m.account_code, m.account_id});
+            modelBuilder.Entity<Account>().HasKey(a => new { a.account_code, a.account_id});
         }
 
 
@@ -112,34 +112,16 @@ namespace lab.db
 
         #region Update account
 
-        public async Task<bool> UpdateAccount(Account account)
+        public  void UpdateAccount(Account account)
         {
-            Account acc = null;
-            try
-            {
-                acc = Accounts.FirstOrDefault(x => x.account_id == account.account_id);
 
-            }
-            catch (Exception e)
-            {
-                throw;
 
-            }
+            Accounts.Update(account);
 
-            if (acc != null)
-            {
-                acc.account_code = account.account_code;
-                Accounts.Update(acc);
-                // SaveChanges should be put in the try catch
-                this.SaveChanges();
 
-            }
-            else
-            {
-                throw new Exception();
-            }
+            this.SaveChanges(true);
 
-            return true;
+
         }
 
         #endregion

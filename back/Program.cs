@@ -11,8 +11,9 @@ namespace lab
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.AddJsonFile("appsettings.Development.json");
-            var services = new ServiceCollection();
 
+
+            builder.Services.AddTransient<CloseDay>();
             // Add services to the container.
 
             builder.Services.AddDbContext<DBCityContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
@@ -32,7 +33,8 @@ namespace lab
 
             builder.Services.AddTransient<DepositLogic>();
             builder.Services.AddTransient<CashInOut>();
-            builder.Services.AddTransient<CloseDay>();
+ 
+           
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

@@ -341,7 +341,7 @@ namespace lab.Transaction.BusinessLogic
         protected async Task<bool> SaveBalance(Account account, Balance balance)
         {
             account.last_update = balance.time;
-            await _accounts.UpdateAccount(account);
+            _accounts.UpdateAccount(account);
             try
             {
                 _dBBalanceContext.Add(balance);
@@ -454,7 +454,7 @@ namespace lab.Transaction.BusinessLogic
                 case ("1230"):
                 case ("1231"):
                     {
-                        var acc = account;
+                        var acc = account.Copy();
                         acc.account_type = Passive;
                         acc.account_code = "1273";
                         var acc1 = await _accounts.GetAccountFromCode("7327");

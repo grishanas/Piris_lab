@@ -79,16 +79,20 @@ namespace lab.classes
 
         public int currency_type { get; set; }
 
-        [Required]
         public string account_code { get; set; }
 
-        [Required]
         public int account_type { get; set; }
-
+        [Required]
         public  long client_id { get; set; }
 
         public Account()
         {
+
+        }
+
+        public Account Copy()
+        {
+            return (Account)this.MemberwiseClone();
         }
         
         public Account(UserAccount userAccount)

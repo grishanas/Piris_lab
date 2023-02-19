@@ -19,7 +19,7 @@ namespace lab.db
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Balance>().HasKey(k=>new { k.account_id,k.time});
+            modelBuilder.Entity<Balance>().HasKey(k=>new { k.account_id,k.account_code,k.time});
         }
 
         public async Task<List<Balance>>? GetLastDayBalance()
@@ -27,6 +27,13 @@ namespace lab.db
             var lastDay=context.Last();
             var allLastDay = context.Where(x => x.time == lastDay.time).ToList();
             return allLastDay;
+        }
+
+        public async Task<bool> AddBalance(Balance balance)
+        {
+            context.Add(balance);
+            this.SaveChanges();
+            return true;
         }
 
         public async Task<Balance>? GetBalance(AccountID accountID, DateTime lastUpdate)
