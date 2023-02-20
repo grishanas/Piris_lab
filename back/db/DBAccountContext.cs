@@ -106,6 +106,7 @@ namespace lab.db
                 sendAcc.account_type = await _dBAccountTypeContext.GetCode(account.account_type);
                 sendAcc.account_code = await _dbCodeContext.GetCode(account.account_code);
                 sendAcc.currency_type = await _dBTypeOfCurrencyContext.GetCurrency(account.currency_type);
+                sendAcc.balance = await _dBBalanceContext.GetBalance(new AccountID(account), account.last_update);
                 accs.Add(sendAcc);
             }
             return accs;

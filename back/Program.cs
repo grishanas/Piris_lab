@@ -10,6 +10,7 @@ namespace lab
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            //builder.WebHost.Use("http://127.0.0.1:8000");
             builder.Configuration.AddJsonFile("appsettings.Development.json");
 
 
