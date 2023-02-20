@@ -119,24 +119,43 @@ namespace BankClient
                 return false;
             }
 
-            if (clients!.Any(client => string.Equals(client.passport_series, tbxPassportSeries.Text, 
-                StringComparison.InvariantCulture)))
-            {
-                MessageBox.Show("Duplicate passport series");
-                return false;
-            }
-
             if (tbxPassportNumber.Text.Length != 9)
             {
                 MessageBox.Show("The passport number must be 9 symbols long");
                 return false;
             }
 
-            if (clients!.Any(client => string.Equals(client.passport_number, tbxPassportNumber.Text,
-                StringComparison.InvariantCulture)))
+            if (isEdit)
             {
-                MessageBox.Show("Duplicate passport number");
-                return false;
+                if (clients!.Count(client => string.Equals(client.passport_series, tbxPassportSeries.Text,
+                StringComparison.InvariantCulture)) >= 2)
+                {
+                    MessageBox.Show("Duplicate passport series");
+                    return false;
+                }
+
+                if (clients!.Count(client => string.Equals(client.passport_number, tbxPassportNumber.Text,
+                StringComparison.InvariantCulture)) >= 2)
+                {
+                    MessageBox.Show("Duplicate passport number");
+                    return false;
+                }
+            }
+            else
+            {
+                if (clients!.Any(client => string.Equals(client.passport_series, tbxPassportSeries.Text,
+                StringComparison.InvariantCulture)))
+                {
+                    MessageBox.Show("Duplicate passport series");
+                    return false;
+                }
+
+                if (clients!.Any(client => string.Equals(client.passport_number, tbxPassportNumber.Text,
+                StringComparison.InvariantCulture)))
+                {
+                    MessageBox.Show("Duplicate passport number");
+                    return false;
+                }
             }
 
             var regName = new Regex(@"[a-zA-zа-яА-я-]");

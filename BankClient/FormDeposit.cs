@@ -111,7 +111,7 @@ namespace BankClient
             bool success;
             try
             {
-                success = httpClient.SendRequest(HttpMethod.Post, "api/Debit", JsonSerializer.Serialize(deposit));
+                success = httpClient.SendRequest(HttpMethod.Post, "api/Deposit", JsonSerializer.Serialize(deposit));
             }
             catch (HttpRequestException)
             {
