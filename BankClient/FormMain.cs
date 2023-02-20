@@ -1174,7 +1174,7 @@ namespace BankClient
 
         private void tsmiRefreshAccounts_Click(object sender, EventArgs e)
         {
-            if (!FetchAccounts())
+            if (FetchAccounts())
             {
                 FillAccountsGrid();
             }
