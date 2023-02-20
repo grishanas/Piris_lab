@@ -8,6 +8,6 @@ namespace BankClient
 {
     public class Balance
     {
-        public decimal balance { get; set; }
+        public decimal count { get; set; }
     }
 }

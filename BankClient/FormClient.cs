@@ -873,5 +873,10 @@ namespace BankClient
 
             frmClient.ShowDialog();
         }
+
+        private void tsmiAddCredit_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace BankClient
 {
     public partial class FormDeposit : Form
     {
-        public FormDeposit(FormClient frmClient)
+        public FormDeposit(FormClient frmClient, bool isDeposit = true)
         {
             InitializeComponent();
 
@@ -24,6 +24,7 @@ namespace BankClient
             client = frmClient.Client;
             currencies = frmClient.currencies;
             accountCodes = frmClient.accountCodes;
+            this.isDeposit = isDeposit;
 
             for (int i = 0; i < currencies!.Count; ++i)
             {
@@ -40,6 +41,7 @@ namespace BankClient
             cmbxAccountCode.SelectedIndex = 0;
         }
 
+        private readonly bool isDeposit;
         private readonly HttpClient httpClient;
         private readonly Client client;
         private readonly Deposit deposit;
@@ -109,7 +111,7 @@ namespace BankClient
             bool success;
             try
             {
-                success = httpClient.SendRequest(HttpMethod.Post, "api/Deposit", JsonSerializer.Serialize(deposit));
+                success = httpClient.SendRequest(HttpMethod.Post, "api/Debit", JsonSerializer.Serialize(deposit));
             }
             catch (HttpRequestException)
             {

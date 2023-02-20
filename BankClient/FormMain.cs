@@ -1166,7 +1166,7 @@ namespace BankClient
                 dgvAccounts.Rows[rInd].Cells[6].Value = account.currency_type.name;
                 dgvAccounts.Rows[rInd].Cells[7].Value = account.account_code.account_code;
                 dgvAccounts.Rows[rInd].Cells[8].Value = account.account_type.name;
-                dgvAccounts.Rows[rInd].Cells[9].Value = account?.balance?.balance;
+                dgvAccounts.Rows[rInd].Cells[9].Value = account?.balance?.count;
                 dgvAccounts.Rows[rInd].Cells[10].Value = account?.client_id;
                 dgvAccounts.Rows[rInd].Cells[11].Value = account?.deadline;
             }
