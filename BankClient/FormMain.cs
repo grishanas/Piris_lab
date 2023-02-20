@@ -33,6 +33,7 @@ namespace BankClient
         public List<Disability>? disabilities = null;
         public List<CurrencyType>? currencies = null;
         public List<AccountCode>? accountCodes = null;
+        public List<Account>? accounts = null;
 
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -40,29 +41,75 @@ namespace BankClient
             {
                 lboxClients.Items.AddRange(clients!.ToArray());
             }
+            else
+            {
+                MessageBox.Show("Closing");
+                Close();
+            }
 
             if (FetchCities())
             {
                 lboxCities.Items.AddRange(cities!.ToArray());
+            }
+            else
+            {
+                MessageBox.Show("Closing");
+                Close();
             }
 
             if (FetchFamilyStatuses())
             {
                 lboxFamilyStatuses.Items.AddRange(familyStatuses!.ToArray());
             }
+            else
+            {
+                MessageBox.Show("Closing");
+                Close();
+            }
 
             if (FetchCitizenships())
             {
                 lboxCitizenships.Items.AddRange(citizenships!.ToArray());
+            }
+            else
+            {
+                MessageBox.Show("Closing");
+                Close();
             }
 
             if (FetchDisabilities())
             {
                 lboxDisabilities.Items.AddRange(disabilities!.ToArray());
             }
+            else
+            {
+                MessageBox.Show("Closing");
+                Close();
+            }
 
-            FetchCurrencies();
-            FetchAccountCodes();
+            if (!FetchCurrencies())
+            {
+                MessageBox.Show("Closing");
+                Close();
+            }
+
+            if (!FetchAccountCodes())
+            {
+                MessageBox.Show("Closing");
+                Close();
+            }
+
+            FillAccountsGridColumns();
+
+            if (FetchAccounts())
+            {
+                FillAccountsGrid();
+            }
+            else
+            {
+                MessageBox.Show("Closing");
+                Close();
+            }
         }
 
         private bool FetchAccountCodes()
@@ -1026,5 +1073,111 @@ namespace BankClient
         }
 
         #endregion Disabilites
+
+        private bool CloseDay()
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Post, "api/CloseDay/CloseDay", string.Empty);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to close day");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void btnCloseDay_Click(object sender, EventArgs e)
+        {
+            if (!CloseDay())
+            {
+                return;
+            }
+
+            MessageBox.Show("Day closed");
+        }
+
+        private bool FetchAccounts()
+        {
+            string res;
+            bool success;
+
+            try
+            {
+                res = httpClient.GetRequestString(HttpMethod.Get, "api/Account/GetAccounts", out success);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to get accounts");
+                return false;
+            }
+
+            var node = Utils.GetJSONValue(res);
+
+            accounts = JsonSerializer.Deserialize<List<Account>>(node);
+
+            return true;
+        }
+
+        private void FillAccountsGridColumns()
+        {
+            dgvAccounts.Columns.Add("1", "Account ID");
+            dgvAccounts.Columns.Add("2", "Bank name");
+            dgvAccounts.Columns.Add("3", "Start date");
+            dgvAccounts.Columns.Add("4", "End date");
+            dgvAccounts.Columns.Add("5", "Deadline");
+            dgvAccounts.Columns.Add("6", "Interest rate");
+            dgvAccounts.Columns.Add("7", "Currency type");
+            dgvAccounts.Columns.Add("8", "Account code");
+            dgvAccounts.Columns.Add("9", "Account type");
+            dgvAccounts.Columns.Add("10", "Balance");
+            dgvAccounts.Columns.Add("11", "Client id");
+            dgvAccounts.Columns.Add("12", "Deadline");
+        }
+
+        private void FillAccountsGrid()
+        {
+            dgvAccounts.Rows.Clear();
+            
+            foreach (Account account in accounts)
+            {
+                int rInd = dgvAccounts.Rows.Add();
+                dgvAccounts.Rows[rInd].Cells[0].Value = account.account_id;
+                dgvAccounts.Rows[rInd].Cells[1].Value = account.bank_name;
+                dgvAccounts.Rows[rInd].Cells[2].Value = account.start_date;
+                dgvAccounts.Rows[rInd].Cells[3].Value = account.end_date;
+                dgvAccounts.Rows[rInd].Cells[4].Value = account.deadline;
+                dgvAccounts.Rows[rInd].Cells[5].Value = account.interest_rate;
+                dgvAccounts.Rows[rInd].Cells[6].Value = account.currency_type.name;
+                dgvAccounts.Rows[rInd].Cells[7].Value = account.account_code.account_code;
+                dgvAccounts.Rows[rInd].Cells[8].Value = account.account_type.name;
+                dgvAccounts.Rows[rInd].Cells[9].Value = account?.balance?.balance;
+                dgvAccounts.Rows[rInd].Cells[10].Value = account?.client_id;
+                dgvAccounts.Rows[rInd].Cells[11].Value = account?.deadline;
+            }
+        }
+
+        private void tsmiRefreshAccounts_Click(object sender, EventArgs e)
+        {
+            if (!FetchAccounts())
+            {
+                FillAccountsGrid();
+            }
+        }
     }
 }
