@@ -119,7 +119,7 @@ namespace lab.Transaction.BusinessLogic
         public async Task<Account> CreareCredit(UserAccount userAccount,decimal amount)
         {
             userAccount = userAccount ?? throw new ArgumentNullException(nameof(userAccount));
-            if (IsValidCredit(userAccount.account_code))
+            if (!IsValidCredit(userAccount.account_code))
                 throw new Exception();
             var FundAcc =await _accounts.GetAccountFromCode("7327");
             var balance = BalanceCalculation(FundAcc);
@@ -134,11 +134,13 @@ namespace lab.Transaction.BusinessLogic
                     acc1.account_code = "2470";
                     acc1.account_type = Active;
                     break;
+                default:
+                    throw new Exception("not a credit");
             }
 
             balance.Wait();
             if (balance.Result.count < amount)
-                throw new Exception();
+                throw new Exception("Bank don't have enought money");
             var newBalance=new Balance(acc) { count = amount,time= DateTime.Now};
             CreateOperation(FundAcc, acc, newBalance);
 

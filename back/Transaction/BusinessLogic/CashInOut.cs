@@ -87,7 +87,7 @@ namespace lab.Transaction.BusinessLogic
             var oldBalance = await _dBBalanceContext.GetBalance(new AccountID(source), source.last_update);
             if (balance.count - oldBalance.count < amount)
                 throw new Exception();
-            CreateOperation(source, destination, new Balance(source) { count = amount });
+            CreateOperation(source, destination, new Balance(source) { count = amount,time=DateTime.Now });
             return true;
         }
 

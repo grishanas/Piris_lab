@@ -33,7 +33,7 @@ namespace lab
 
             builder.Services.AddTransient<DepositLogic>();
             builder.Services.AddTransient<CashInOut>();
- 
+            builder.Services.AddTransient<CreditLogic>();
            
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

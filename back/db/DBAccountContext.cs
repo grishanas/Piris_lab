@@ -127,6 +127,10 @@ namespace lab.db
             return await Accounts.FirstOrDefaultAsync(x => x.account_id == id.account_id && x.account_code==id.account_code&&x.account_type==id.account_type);
         }
 
+        public async Task<List<Account>> GetAccounts(string account_id)
+        {
+            return await Accounts.Where(x => x.account_id == account_id).ToListAsync();
+        }
         #endregion
 
         #region Update account

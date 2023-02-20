@@ -18,6 +18,16 @@ namespace lab.Transaction.BusinessLogic
         {
             CheckOut = 1010,
         }
+
+        protected enum RecallDebit
+        {
+            d1230=1230,
+            d1231=1231,
+        }
+        protected enum notRecallDebit
+        {
+            d1240=1240,
+        }
         
 
         public DepositLogic() : base()
@@ -132,7 +142,21 @@ namespace lab.Transaction.BusinessLogic
             {
                 if (destination.account_type == Active)
                 {
-                    throw new Exception("no implementation");
+                    Credit sourceOperation = new Credit(source, destination);
+                    var destinationOperation = new Debit(source, destination);
+                    sourceOperation.time = destinationOperation.time = amount.time;
+                    sourceOperation.count = destinationOperation.count = amount.count;
+                    try
+                    {
+                        _creditContext.Add(sourceOperation);
+                        _debitContext.Add(destinationOperation);
+                        _creditContext.SaveChanges();
+                        _debitContext.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        throw;
+                    }
                 }
                 else
                 {
@@ -252,6 +276,17 @@ namespace lab.Transaction.BusinessLogic
             }
         }
 
+
+        protected bool IsRecallDebit(string accountCode)
+        {
+            foreach (int i in Enum.GetValues(typeof(RecallDebit)))
+            {
+                if (accountCode == i.ToString())
+                    return true;
+            }
+            throw new Exception();
+
+        }
         public async Task<bool> CashOut(UserAccountID source, UserAccountID destination, decimal amount)
         {
 
@@ -260,21 +295,60 @@ namespace lab.Transaction.BusinessLogic
             if (!IsValidDeposit(source))
                 throw new Exception();
 
-            var SourceAcc = await _accounts.GetAccount(new AccountID(source) { account_type = Passive });
-            var DestinationAcc = await _accounts.GetAccount(new AccountID(destination) { account_type = Passive });
+            var DestinationAcc = _accounts.GetAccount(new AccountID(destination) { account_type = Passive });
+            var SourceAccs = await _accounts.GetAccounts( source.account_id);
 
-            if (SourceAcc == null || DestinationAcc == null)
+            int Recall = -1;
+            Account SourceAcc = null;
+            for(int i=0;i<SourceAccs.Count;i++)
+            {
+                if (IsRecallDebit(SourceAccs[i].account_code))
+                    Recall = i;
+                else
+                    SourceAcc = SourceAccs[i];
+            }
+
+            DestinationAcc.Wait();
+
+            if (SourceAcc == null || DestinationAcc.Result == null)
                 throw new Exception();
 
             if (DateOnly.FromDateTime(SourceAcc.deadline) <= DateOnly.FromDateTime(DateTime.Now))
                 throw new Exception();
 
-            var balance = await _dBBalanceContext.GetBalance(new AccountID(SourceAcc), SourceAcc.last_update);
-            if (balance.count < amount)
-                throw new Exception();
-
-            var time= DateTime.Now;
-            CreateOperation(SourceAcc,DestinationAcc,amount);
+            if (Recall == -1)
+            {
+                //без отзывной
+                SourceAcc = SourceAccs.Last();
+                var balance = await _dBBalanceContext.GetBalance(new AccountID(SourceAcc), SourceAcc.last_update);
+                if (balance.count < amount)
+                    throw new Exception();
+                var time = DateTime.Now;
+                CreateOperation(SourceAcc, DestinationAcc.Result, new Balance(SourceAcc) { count=amount,time=time});
+            }
+            else
+            {
+                var time = DateTime.Now;
+                var InterestBalance = await _dBBalanceContext.GetBalance(new AccountID(SourceAcc), SourceAcc.last_update);
+                if (InterestBalance.count > amount)
+                {
+                    CreateOperation(SourceAcc, DestinationAcc.Result, new Balance(SourceAcc) { count = amount, time = time });
+                }
+                else
+                {
+                    var bodyDebit = await _dBBalanceContext.GetBalance(new AccountID(SourceAccs[Recall]), SourceAccs[Recall].last_update);
+                    if(bodyDebit.count + InterestBalance.count > amount)
+                    {
+                        InterestBalance.time = time;
+                        CreateOperation(SourceAcc, DestinationAcc.Result,InterestBalance);
+                        CreateOperation(SourceAccs[Recall], DestinationAcc.Result, new Balance(SourceAccs[Recall]) { count=amount-InterestBalance.count,time=time});
+                    }
+                    else
+                    {
+                        throw new Exception("Not enought money");
+                    }
+                }
+            }
 
             return true;
         }
@@ -382,10 +456,6 @@ namespace lab.Transaction.BusinessLogic
                 i++;
 
             }
-               
-         
-
-            
 
             decimal creditAmount = 0;
             decimal debitAmount = 0;
