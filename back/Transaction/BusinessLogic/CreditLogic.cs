@@ -47,16 +47,16 @@ namespace lab.Transaction.BusinessLogic
             var oldBalance = await _dBBalanceContext.GetBalance(acc1, account.last_update);
             if (oldBalance == null)
             {
-                oldBalance = new Balance(account) { count = 0 };
+                oldBalance = new Balance(account) { count = 0,time= DateTime.MinValue };
             }
 
-            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, DateTime.MinValue, time);
+            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
             if (debit == null)
             {
                 debit = new List<Debit>();
                 debit.Add(new Debit() { count = 0 });
             }
-            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, DateTime.MinValue, time);
+            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
             if (credit == null)
             {
                 credit = new List<Credit>();
@@ -93,16 +93,16 @@ namespace lab.Transaction.BusinessLogic
             var oldBalance = await _dBBalanceContext.GetBalance(acc1, account.last_update);
             if (oldBalance == null)
             {
-                oldBalance = new Balance(account) { count = 0 };
+                oldBalance = new Balance(account) { count = 0, time = DateTime.MinValue };
             }
 
-            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, DateTime.MinValue, time);
+            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
             if (debit == null)
             {
                 debit = new List<Debit>();
                 debit.Add(new Debit() { count = 0 });
             }
-            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, DateTime.MinValue, time);
+            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
             if (credit == null)
             {
                 credit = new List<Credit>();
