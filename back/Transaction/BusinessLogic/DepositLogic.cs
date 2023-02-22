@@ -364,13 +364,13 @@ namespace lab.Transaction.BusinessLogic
                 oldBalance = new Balance(account) { count = 0 };
             }
 
-            var debit = _debitContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
+            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
             if (debit == null)
             {
                 debit = new List<Debit>();
                 debit.Add(new Debit() { count = 0 });
             }
-            var credit = _creditContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
+            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
             if (credit == null)
             {
                 credit = new List<Credit>();

@@ -71,7 +71,7 @@ namespace lab.Transaction.BusinessLogic
                 debit = new List<Debit>();
                 debit.Add(new Debit() { count = 0 });
             }
-            var credit = _dbCreditContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
+            var credit =_dbCreditContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
             if (credit == null)
             {
                 credit = new List<Credit>();
@@ -130,10 +130,17 @@ namespace lab.Transaction.BusinessLogic
             var acs = _accounts.Accounts.ToList();
             foreach(var i in acs)
             {
-                if (IsDeposit(i))
-                    await _depositLogic.CloseDay(i);
-                else if (IsCredit(i))
-                    await _creditLogic.CloseDay(i);
+                try
+                {
+                    if (IsDeposit(i))
+                        await _depositLogic.CloseDay(i);
+                    else if (IsCredit(i))
+                        await _creditLogic.CloseDay(i);
+                }
+                catch(Exception e)
+                {
+
+                }
             }
 
             
@@ -141,10 +148,16 @@ namespace lab.Transaction.BusinessLogic
             {
                 try
                 {
+                    Balance bal = null;
 
-                    var bal= await Balance(acs[i]);
+                    if (IsCredit(acs[i]))
+                        bal= await _creditLogic.CalcilateBalanceToInterestRate(acs[i]);
+                    else
+                        bal = await Balance(acs[i]);
+
                     acs[i].last_update = bal.time;
                     _accounts.Update(acs[i]);
+                    
                     
                 }
                 catch(Exception e)
@@ -153,7 +166,13 @@ namespace lab.Transaction.BusinessLogic
                 }
                 
             }
-            _accounts.SaveChanges();
+            try
+            {
+                _accounts.SaveChanges();
+            }catch(Exception e)
+            {
+
+            }
 
 
             return true;

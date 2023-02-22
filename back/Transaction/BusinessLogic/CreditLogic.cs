@@ -37,7 +37,7 @@ namespace lab.Transaction.BusinessLogic
 
 
         }
-        private async Task<Balance> CalcilateBalanceToInterestRate(Account account)
+        public async Task<Balance> CalcilateBalanceToInterestRate(Account account)
         {
             if ((DateOnly.FromDateTime(account.start_date) > DateOnly.FromDateTime(DateTime.Now)) || (DateOnly.FromDateTime(account.end_date) <= DateOnly.FromDateTime(DateTime.Now)))
                 throw new Exception();
@@ -50,13 +50,13 @@ namespace lab.Transaction.BusinessLogic
                 oldBalance = new Balance(account) { count = 0 };
             }
 
-            var debit = _debitContext.GetAllTransactionForThePeriodSource(acc1, DateTime.MinValue, time);
+            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, DateTime.MinValue, time);
             if (debit == null)
             {
                 debit = new List<Debit>();
                 debit.Add(new Debit() { count = 0 });
             }
-            var credit = _creditContext.GetAllTransactionForThePeriodDestination(acc1, DateTime.MinValue, time);
+            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, DateTime.MinValue, time);
             if (credit == null)
             {
                 credit = new List<Credit>();
@@ -102,7 +102,8 @@ namespace lab.Transaction.BusinessLogic
                 {
                     balance.count = decimal.Multiply(balance.count, Convert.ToDecimal(account.interest_rate));
                     var FundAcc = await _accounts.GetAccountFromCode("7327");
-                    account.account_code = "2470";
+                    account= account.Copy();
+                    account.account_code="2470";
                     CreateOperation(account, FundAcc, balance);
 
                 }
