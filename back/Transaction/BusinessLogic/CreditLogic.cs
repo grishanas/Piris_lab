@@ -71,7 +71,7 @@ namespace lab.Transaction.BusinessLogic
                 credit.ForEach(x => creditAmount += x.count);
             if (debit != null)
                 debit.ForEach(x => debitAmount += x.count);
-            var balance = new Balance(account) { count = oldBalance.count - debitAmount - creditAmount, time = time };
+            var balance = new Balance(account) { count = oldBalance.count - creditAmount + debitAmount, time = time };
 
             return balance;
         }

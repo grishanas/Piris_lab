@@ -107,8 +107,6 @@ namespace lab.Transaction.BusinessLogic
 
         public async Task<Balance> BalanceCalculation(Account account)
         {
-            if ((DateOnly.FromDateTime(account.start_date) > DateOnly.FromDateTime(DateTime.Now)) || (DateOnly.FromDateTime(account.end_date) <= DateOnly.FromDateTime(DateTime.Now)))
-                throw new Exception();
             var acc1 = new AccountID(account);
             var time = DateTime.Now;
 
