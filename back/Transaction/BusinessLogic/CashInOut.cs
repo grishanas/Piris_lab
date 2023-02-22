@@ -50,11 +50,11 @@ namespace lab.Transaction.BusinessLogic
 
             var balance = await BalanceCalculation(acc);
             var oldBalance = await _dBBalanceContext.GetBalance(new AccountID(acc), acc.last_update);
-            if (balance.count-oldBalance.count < amount)
+            if (balance.count- oldBalance.count < amount)
                 throw new Exception();
             var Cred = new Credit(acc);
             Cred.time = DateTime.Now;
-            Cred.count = -amount;
+            Cred.count = amount;
             await _creditContext.AddCredit(Cred);
             return true;
         }
@@ -84,7 +84,7 @@ namespace lab.Transaction.BusinessLogic
             var source = await _accounts.GetAccount(_id);
             var destination = await _accounts.GetAccount(ID);
             var balance = await BalanceCalculation(source);
-            var oldBalance = await _dBBalanceContext.GetBalance(new AccountID(source), source.last_update);
+            var oldBalance = await _dBBalanceContext.GetBalance(new AccountID(source), source.last_update) ?? new Balance(source) { time=DateTime.Now};
             if (balance.count - oldBalance.count < amount)
                 throw new Exception();
             CreateOperation(source, destination, new Balance(source) { count = amount, time=DateTime.Now });
@@ -97,7 +97,21 @@ namespace lab.Transaction.BusinessLogic
             {
                 if (destination.account_type == Active)
                 {
-                    throw new Exception("no implementation");
+                    Credit sourceOperation = new Credit(source, destination);
+                    var destinationOperation = new Debit(source, destination);
+                    sourceOperation.time = destinationOperation.time = amount.time;
+                    sourceOperation.count = destinationOperation.count = amount.count;
+                    try
+                    {
+                        _creditContext.Add(sourceOperation);
+                        _debitContext.Add(destinationOperation);
+                        _creditContext.SaveChanges();
+                        _debitContext.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        throw;
+                    }
                 }
                 else
                 {
@@ -164,13 +178,13 @@ namespace lab.Transaction.BusinessLogic
                 oldBalance = new Balance(account) { count = 0};
             }
 
-            var debit = _debitContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
+            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
             if (debit == null)
             {
                 debit = new List<Debit>();
                 debit.Add(new Debit() { count = 0 });
             }
-            var credit = _creditContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
+            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
             if (credit == null)
             {
                 credit = new List<Credit>();
@@ -185,8 +199,11 @@ namespace lab.Transaction.BusinessLogic
                 credit.ForEach(x => creditAmount += x.count);
             if (debit != null)
                 debit.ForEach(x => debitAmount += x.count);
-            var balance = new Balance(account) { count = oldBalance.count - creditAmount + debitAmount, time = time };
-
+            Balance balance = null;
+            if(account.account_type==Active)
+                balance = new Balance(account) { count = oldBalance.count - creditAmount + debitAmount, time = time };
+            if (account.account_type == Passive)
+                balance = new Balance(account) { count = oldBalance.count + creditAmount - debitAmount, time = time };
             return balance;
         }
 

@@ -36,7 +36,7 @@ namespace lab.Transaction.controller
         {
             try
             {
-                await _context.CashOut(money);
+                        await _context.CashOut(money);
             }
             catch
             {
@@ -59,18 +59,31 @@ namespace lab.Transaction.controller
             return Results.Ok();
         }
 
-        [HttpPost("Transfer")]
-        public async Task<IResult> TransferCash(AccountID destination,decimal amount)
+        [HttpPost("TransferTo")]
+        public async Task<IResult> TransferCash([FromBody] AccountID destination, decimal amount)
         {
             try
             {
                 await _context.TransferCash(destination, amount);
-            }catch(Exception e)
+            } catch (Exception e)
             {
                 return Results.Problem();
             }
             return Results.Ok();
         }
+
+/*        [HttpPost("TransferFrom")]
+        public async Task<IResult> TransferFromCash([FromBody] AccountID source,decimal amount)
+        {
+            try
+            {
+                await 
+            }catch(Exception e)
+            {
+                return Results.Problem();
+            }
+            return Results.Ok();
+        }*/
         
     }
 }

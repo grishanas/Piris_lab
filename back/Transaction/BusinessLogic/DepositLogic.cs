@@ -420,13 +420,13 @@ namespace lab.Transaction.BusinessLogic
                 oldBalance = new Balance(account) { count = 0 };
             }
 
-            var debit = _debitContext.GetAllTransactionForThePeriodSource(deposit, oldBalance.time, time);
+            var debit = _debitContext.GetAllTransactionForThePeriodSource(deposit, account.start_date, time);
             if (debit == null)
             {
                 debit = new List<Debit>();
                 debit.Add(new Debit() { count = 0 });
             }
-            var credit = _creditContext.GetAllTransactionForThePeriodDestination(deposit, oldBalance.time, time);
+            var credit = _creditContext.GetAllTransactionForThePeriodDestination(deposit, account.start_date, time);
             if (credit == null)
             {
                 credit = new List<Credit>();

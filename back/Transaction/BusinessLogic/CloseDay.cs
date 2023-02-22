@@ -12,6 +12,7 @@ namespace lab.Transaction.BusinessLogic
         private readonly DBBalanceContext _balanceContext;
         private readonly DBDebitContext _dbDebitContext;
         private readonly DBCreditContext _dbCreditContext;
+        private readonly CreditLogic _creditLogic;
 
         private readonly long _id = 0;
         private const int Active = 1;
@@ -23,7 +24,15 @@ namespace lab.Transaction.BusinessLogic
             d1231 = 1231,
             d1010 = 1010,
             d1273 = 1273,
-            d7327 = 7327
+            d7327 = 7327,
+            d2400 = 2400,
+            d2700 = 2700
+        }
+
+        private enum CreditEnum
+        {
+            d2400 = 2400,
+            d2700 = 2700
         }
 
         private enum Deposit
@@ -32,13 +41,15 @@ namespace lab.Transaction.BusinessLogic
             d1231=1231
         }
 
-        public CloseDay(DBAccountContext accounts, DepositLogic depositLogic,DBBalanceContext dBBalanceContext,DBDebitContext dBDebitContext, DBCreditContext dBCreditContext)
+        public CloseDay(DBAccountContext accounts, DepositLogic depositLogic,DBBalanceContext dBBalanceContext, 
+            DBDebitContext dBDebitContext, DBCreditContext dBCreditContext, CreditLogic creditLogic)
         {
             _accounts = accounts;
             _depositLogic = depositLogic;
             _balanceContext = dBBalanceContext;
             _dbDebitContext = dBDebitContext;
             _dbCreditContext = dBCreditContext;
+            _creditLogic = creditLogic;
         }
 
         private async Task<Balance> Balance(Account account)
@@ -96,9 +107,9 @@ namespace lab.Transaction.BusinessLogic
         }
     
 
-        private bool IsNeedBalance(Account account)
+        private bool IsCredit(Account account)
         {
-            foreach (int i in Enum.GetValues(typeof(FindBalance)))
+            foreach (int i in Enum.GetValues(typeof(CreditEnum)))
             {
                 if (account.account_code == i.ToString())
                     return true;
@@ -121,6 +132,8 @@ namespace lab.Transaction.BusinessLogic
             {
                 if (IsDeposit(i))
                     await _depositLogic.CloseDay(i);
+                else if (IsCredit(i))
+                    await _creditLogic.CloseDay(i);
             }
 
             

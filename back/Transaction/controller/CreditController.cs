@@ -30,5 +30,17 @@ namespace lab.Transaction.controller
 
             return Results.Ok();
         }
+        [HttpPost("CashOut")]
+        public async Task<IResult> CashOut([FromBody] UserAccountID user,decimal amount)
+        {
+            try
+            {
+                await _context.CashOut(user, amount);
+            }catch(Exception e)
+            {
+                return Results.Problem();
+            }
+            return Results.Ok(amount);
+        }
     }
 }

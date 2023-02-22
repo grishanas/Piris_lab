@@ -119,7 +119,7 @@ namespace BankClient
                 return false;
             }
 
-            if (clients!.Any(client => string.Equals(client.passport_series, tbxPassportSeries.Text, 
+            if (!isEdit && clients!.Any(client => string.Equals(client.passport_series, tbxPassportSeries.Text, 
                 StringComparison.InvariantCulture)))
             {
                 MessageBox.Show("Duplicate passport series");

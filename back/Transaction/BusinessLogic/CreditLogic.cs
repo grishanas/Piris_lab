@@ -50,13 +50,13 @@ namespace lab.Transaction.BusinessLogic
                 oldBalance = new Balance(account) { count = 0 };
             }
 
-            var debit = _debitContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
+            var debit = _debitContext.GetAllTransactionForThePeriodSource(acc1, DateTime.MinValue, time);
             if (debit == null)
             {
                 debit = new List<Debit>();
                 debit.Add(new Debit() { count = 0 });
             }
-            var credit = _creditContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
+            var credit = _creditContext.GetAllTransactionForThePeriodDestination(acc1, DateTime.MinValue, time);
             if (credit == null)
             {
                 credit = new List<Credit>();
@@ -78,7 +78,7 @@ namespace lab.Transaction.BusinessLogic
                 credit.ForEach(x => creditAmount += x.count);
             if (debit != null)
                 debit.ForEach(x => debitAmount += x.count);
-            var balance = new Balance(account) { count = oldBalance.count - creditAmount + debitAmount, time = time };
+            var balance = new Balance(account) { count = creditAmount - debitAmount, time = time };
 
             return balance;
         }
@@ -121,15 +121,16 @@ namespace lab.Transaction.BusinessLogic
             userAccount = userAccount ?? throw new ArgumentNullException(nameof(userAccount));
             if (!IsValidCredit(userAccount.account_code))
                 throw new Exception();
+            var client = await _dbClientContext.GetClientFromDB(userAccount.client_id);
             var FundAcc =await _accounts.GetAccountFromCode("7327");
             var balance = BalanceCalculation(FundAcc);
-            var acc = new Account(userAccount);
+            var acc = new Account(userAccount) {client_id = client.client_id };
             acc.account_type = Active;
             Account acc1 = null;
             switch(acc.account_code)
             {
                 case ("2400"):
-                    acc1 = new Account(userAccount);
+                    acc1 = new Account(userAccount) { client_id = client.client_id }; ;
                     acc1.interest_rate = 0;
                     acc1.account_code = "2470";
                     acc1.account_type = Active;
@@ -137,7 +138,8 @@ namespace lab.Transaction.BusinessLogic
                 default:
                     throw new Exception("not a credit");
             }
-
+            await this._accounts.AddAccount(acc1);
+            await this._accounts.AddAccount(acc);
             balance.Wait();
             if (balance.Result.count < amount)
                 throw new Exception("Bank don't have enought money");
@@ -147,6 +149,19 @@ namespace lab.Transaction.BusinessLogic
             var Balnc = BalanceCalculation(acc);
             return acc;
 
+
+        }
+
+        public async Task<bool> CashOut(UserAccountID user,decimal amount)
+        {
+            var UserAccount = await _accounts.GetAccount(new AccountID(user) { account_type=Active});
+            UserAccount = UserAccount ?? throw new ArgumentNullException(nameof(UserAccount));
+            var balance = await BalanceCalculation(UserAccount)?? new Balance(UserAccount) { count=0,time=DateTime.Now};
+            if (balance.count < amount)
+                throw new Exception();
+            var destination = await _accounts.GetAccountFromCode("1010");
+            CreateOperation(UserAccount, destination, balance);
+            return true;
 
         }
 
