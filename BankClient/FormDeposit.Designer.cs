@@ -46,6 +46,8 @@
             this.cmbxAccountCode = new System.Windows.Forms.ComboBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbxAmount = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -188,7 +190,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(12, 245);
+            this.btnOk.Location = new System.Drawing.Point(12, 272);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(32, 23);
             this.btnOk.TabIndex = 16;
@@ -198,7 +200,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(50, 245);
+            this.btnCancel.Location = new System.Drawing.Point(50, 272);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(51, 23);
             this.btnCancel.TabIndex = 17;
@@ -206,11 +208,29 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(47, 247);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(54, 15);
+            this.label9.TabIndex = 18;
+            this.label9.Text = "Amount:";
+            // 
+            // tbxAmount
+            // 
+            this.tbxAmount.Location = new System.Drawing.Point(107, 244);
+            this.tbxAmount.Name = "tbxAmount";
+            this.tbxAmount.Size = new System.Drawing.Size(100, 23);
+            this.tbxAmount.TabIndex = 19;
+            // 
             // FormDeposit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(221, 274);
+            this.ClientSize = new System.Drawing.Size(221, 299);
+            this.Controls.Add(this.tbxAmount);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.cmbxAccountCode);
@@ -256,5 +276,7 @@
         private System.Windows.Forms.ComboBox cmbxAccountCode;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox tbxAmount;
     }
 }

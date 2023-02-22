@@ -895,7 +895,9 @@ namespace BankClient
 
         private void tsmiAddCredit_Click(object sender, EventArgs e)
         {
+            var frmClient = new FormDeposit(this, isDeposit: false);
 
+            frmClient.ShowDialog();
         }
     }
 }

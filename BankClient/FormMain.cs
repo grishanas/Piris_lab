@@ -8,6 +8,7 @@ namespace BankClient
 {
     public partial class FormMain : Form
     {
+        private const ushort port = 9000;
         public FormMain()
         {
             InitializeComponent();
@@ -21,7 +22,7 @@ namespace BankClient
 
             httpClient = new HttpClient(httpClientHandler)
             {
-                BaseAddress = new Uri("http://127.0.0.1:9000/")
+                BaseAddress = new Uri($"http://127.0.0.1:{port}/")
             };
         }
 

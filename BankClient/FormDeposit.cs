@@ -39,6 +39,8 @@ namespace BankClient
             }
 
             cmbxAccountCode.SelectedIndex = 0;
+
+            tbxAmount.Enabled = !isDeposit;
         }
 
         private readonly bool isDeposit;
@@ -47,6 +49,7 @@ namespace BankClient
         private readonly Deposit deposit;
         private readonly List<CurrencyType>? currencies;
         private readonly List<AccountCode>? accountCodes;
+        private decimal amount;
 
         private bool CheckFields()
         {
@@ -87,6 +90,21 @@ namespace BankClient
                 return false;
             }
 
+            if (!isDeposit)
+            {
+                if (string.IsNullOrWhiteSpace(tbxAmount.Text))
+                {
+                    MessageBox.Show("Amount field not filled out");
+                    return false;
+                }
+
+                if (!decimal.TryParse(tbxAmount.Text, out _))
+                {
+                    MessageBox.Show("Amount formatting error");
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -104,6 +122,11 @@ namespace BankClient
             deposit.interest_rate = decimal.Parse(tbxInterestRate.Text);
             deposit.currency_type = currencies![cmbxCurrencyType.SelectedIndex].id;
             deposit.account_code = accountCodes![cmbxAccountCode.SelectedIndex].account_code;
+
+            if (!isDeposit)
+            {
+                amount = decimal.Parse(tbxAmount.Text);
+            }
         }
 
         private bool AddDeposit()
@@ -128,6 +151,28 @@ namespace BankClient
             return true;
         }
 
+        private bool AddCredit()
+        {
+            bool success;
+            try
+            {
+                success = httpClient.SendRequest(HttpMethod.Post, $"api/Credit?amount={amount}", JsonSerializer.Serialize(deposit));
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to add credit");
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnOk_Click(object sender, EventArgs e)
         {
             if (!CheckFields())
@@ -137,9 +182,19 @@ namespace BankClient
 
             GetFields();
 
-            if (!AddDeposit())
+            if (isDeposit)
             {
-                return;
+                if (!AddDeposit())
+                {
+                    return;
+                }
+            }
+            else
+            {
+                if (!AddCredit())
+                {
+                    return;
+                }
             }
 
             DialogResult = DialogResult.OK;
