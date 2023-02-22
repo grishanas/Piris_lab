@@ -107,44 +107,81 @@ namespace lab.Transaction.BusinessLogic
 
         public async Task<Balance> BalanceCalculation(Account account)
         {
+            if ((DateOnly.FromDateTime(account.start_date) > DateOnly.FromDateTime(DateTime.Now)) || (DateOnly.FromDateTime(account.end_date) <= DateOnly.FromDateTime(DateTime.Now)))
+                throw new Exception();
             var acc1 = new AccountID(account);
             var time = DateTime.Now;
 
             var oldBalance = await _dBBalanceContext.GetBalance(acc1, account.last_update);
             if (oldBalance == null)
             {
-                oldBalance = new Balance(account) { count = 0,time=DateTime.MinValue };
+                oldBalance = new Balance(account) { count = 0 };
             }
-
-            
-            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
-            if (debit == null)
-            {
-                debit = new List<Debit>();
-                debit.Add(new Debit() { count = 0 });
-            }
-            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
-            if (credit == null)
-            {
-                credit = new List<Credit>();
-                credit.Add(new Credit() { count = 0 });
-            }
-
-
 
             decimal creditAmount = 0;
             decimal debitAmount = 0;
-            if (credit != null)
-                credit.ForEach(x => creditAmount += x.count);
-            if (debit != null)
-                debit.ForEach(x => debitAmount += x.count);
+            if (acc1.account_type == Active)
+            {
+                var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
+                if (debit == null)
+                {
+                    debit = new List<Debit>();
+                    debit.Add(new Debit() { count = 0 });
+                }
+                var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
+                if (credit == null)
+                {
+                    credit = new List<Credit>();
+                    credit.Add(new Credit() { count = 0 });
+                }
+                if (credit != null)
+                    credit.ForEach(x => creditAmount += x.count);
+                if (debit != null)
+                    debit.ForEach(x => debitAmount += x.count);
+
+            }
+            else
+            {
+                var debit = _debitContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
+                if (debit == null)
+                {
+                    debit = new List<Debit>();
+                    debit.Add(new Debit() { count = 0 });
+                }
+                var credit = _creditContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
+                if (credit == null)
+                {
+                    credit = new List<Credit>();
+                    credit.Add(new Credit() { count = 0 });
+                }
+                if (credit != null)
+                    credit.ForEach(x => creditAmount += x.count);
+                if (debit != null)
+                    debit.ForEach(x => debitAmount += x.count);
+            }
+
+
 
             Balance balance = null;
-            if (account.account_type==Active)
-                balance = new Balance(account) { count = oldBalance.count - creditAmount + debitAmount, time = time };
-            if(account.account_type==Passive)
+            if (account.account_type == Passive)
                 balance = new Balance(account) { count = oldBalance.count + creditAmount - debitAmount, time = time };
+            if (account.account_type == Active)
+                balance = new Balance(account) { count = oldBalance.count - creditAmount + debitAmount, time = time };
+            account.last_update = time;
+
+
+            try
+            {
+                await _dBBalanceContext.AddBalance(balance);
+
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
             return balance;
+
         }
     }
+    
 }

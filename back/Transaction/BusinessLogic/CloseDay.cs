@@ -123,26 +123,50 @@ namespace lab.Transaction.BusinessLogic
                 oldBalance = new Balance(account) { count = 0 };
             }
 
-            var debit = _dbDebitContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
-            if (debit == null)
-            {
-                debit = new List<Debit>();
-                debit.Add(new Debit() { count = 0 });
-            }
-            var credit =_dbCreditContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
-            if (credit == null)
-            {
-                credit = new List<Credit>();
-                credit.Add(new Credit() { count = 0 });
-            }
-
-
             decimal creditAmount = 0;
             decimal debitAmount = 0;
-            if (credit != null)
-                credit.ForEach(x => creditAmount += x.count);
-            if (debit != null)
-                debit.ForEach(x => debitAmount += x.count);
+            if (acc1.account_type == Active)
+            {
+                var debit = await _dbDebitContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
+                if (debit == null)
+                {
+                    debit = new List<Debit>();
+                    debit.Add(new Debit() { count = 0 });
+                }
+                var credit = await _dbCreditContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
+                if (credit == null)
+                {
+                    credit = new List<Credit>();
+                    credit.Add(new Credit() { count = 0 });
+                }
+                if (credit != null)
+                    credit.ForEach(x => creditAmount += x.count);
+                if (debit != null)
+                    debit.ForEach(x => debitAmount += x.count);
+
+            }
+            else
+            {
+                var debit = _dbDebitContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
+                if (debit == null)
+                {
+                    debit = new List<Debit>();
+                    debit.Add(new Debit() { count = 0 });
+                }
+                var credit = _dbCreditContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
+                if (credit == null)
+                {
+                    credit = new List<Credit>();
+                    credit.Add(new Credit() { count = 0 });
+                }
+                if (credit != null)
+                    credit.ForEach(x => creditAmount += x.count);
+                if (debit != null)
+                    debit.ForEach(x => debitAmount += x.count);
+            }
+
+
+
             Balance balance=null;
             if (account.account_type==Passive)
                 balance = new Balance(account) { count = oldBalance.count + creditAmount - debitAmount, time = time };
@@ -222,7 +246,7 @@ namespace lab.Transaction.BusinessLogic
                         bal = await BalanceCredit(acs[i]);
                     } else if (IsCredit(acs[i]))
                     {
-                        bal = await _creditLogic.CalcilateBalanceToInterestRate1(acs[i]);
+                        bal = await _creditLogic.CalcilateBalanceToBalanceShow(acs[i]);
 
                         try
                         {

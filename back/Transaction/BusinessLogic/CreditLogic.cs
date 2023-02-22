@@ -38,7 +38,7 @@ namespace lab.Transaction.BusinessLogic
 
         }
 
-        public async Task<Balance> CalcilateBalanceToInterestRate1(Account account)
+        public async Task<Balance> CalcilateBalanceToBalanceShow(Account account)
         {
 
             var acc1 = new AccountID(account);
@@ -78,7 +78,7 @@ namespace lab.Transaction.BusinessLogic
                 credit.ForEach(x => creditAmount += x.count);
             if (debit != null)
                 debit.ForEach(x => debitAmount += x.count);
-            var balance = new Balance(account) { count = creditAmount - debitAmount, time = time };
+            var balance = new Balance(account) { count = debitAmount-creditAmount, time = time };
 
             return balance;
         }
@@ -124,7 +124,7 @@ namespace lab.Transaction.BusinessLogic
                 credit.ForEach(x => creditAmount += x.count);
             if (debit != null)
                 debit.ForEach(x => debitAmount += x.count);
-            var balance = new Balance(account) { count = creditAmount - debitAmount, time = time };
+            var balance = new Balance(account) { count = creditAmount-debitAmount, time = time };
 
             return balance;
         }
@@ -207,6 +207,7 @@ namespace lab.Transaction.BusinessLogic
             var balance = await BalanceCalculation(UserAccount)?? new Balance(UserAccount) { count=0,time=DateTime.Now};
             if (balance.count < amount)
                 throw new Exception();
+            var bal = new Balance(UserAccount) { count=amount,time=balance.time};
             var destination = await _accounts.GetAccountFromCode("1010");
             CreateOperation(UserAccount, destination, balance);
             return true;
