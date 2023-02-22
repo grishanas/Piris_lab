@@ -39,8 +39,7 @@ namespace lab.Transaction.BusinessLogic
         }
         public async Task<Balance> CalcilateBalanceToInterestRate(Account account)
         {
-            if ((DateOnly.FromDateTime(account.start_date) > DateOnly.FromDateTime(DateTime.Now)) || (DateOnly.FromDateTime(account.end_date) <= DateOnly.FromDateTime(DateTime.Now)))
-                throw new Exception();
+
             var acc1 = new AccountID(account);
             var time = DateTime.Now;
 
@@ -139,15 +138,16 @@ namespace lab.Transaction.BusinessLogic
                 default:
                     throw new Exception("not a credit");
             }
+            balance.Wait();
+                if (balance.Result.count < amount)
+                    throw new Exception("Bank don't have enought money");
             await this._accounts.AddAccount(acc1);
             await this._accounts.AddAccount(acc);
-            balance.Wait();
-            if (balance.Result.count < amount)
-                throw new Exception("Bank don't have enought money");
             var newBalance=new Balance(acc) { count = amount,time= DateTime.Now};
             CreateOperation(FundAcc, acc, newBalance);
 
-            var Balnc = BalanceCalculation(acc);
+            var Balnc = await BalanceCalculation(acc);
+            _dBBalanceContext.AddBalance(Balnc);
             return acc;
 
 

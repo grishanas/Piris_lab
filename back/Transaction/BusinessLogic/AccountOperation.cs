@@ -105,7 +105,7 @@ namespace lab.Transaction.BusinessLogic
             }
         }
 
-        protected async Task<Balance> BalanceCalculation(Account account)
+        public async Task<Balance> BalanceCalculation(Account account)
         {
             var acc1 = new AccountID(account);
             var time = DateTime.Now;
@@ -113,7 +113,7 @@ namespace lab.Transaction.BusinessLogic
             var oldBalance = await _dBBalanceContext.GetBalance(acc1, account.last_update);
             if (oldBalance == null)
             {
-                oldBalance = new Balance(account) { count = 0 };
+                oldBalance = new Balance(account) { count = 0,time=DateTime.MinValue };
             }
 
             
