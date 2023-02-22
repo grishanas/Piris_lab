@@ -62,14 +62,7 @@ namespace lab.Transaction.BusinessLogic
                 credit = new List<Credit>();
                 credit.Add(new Credit() { count = 0 });
             }
-            for (int i = 0; i < debit.Count; i++)
-            {
-                if (debit[i].account_source_code == "7327")
-                {
-                    debit.Remove(debit[i]);
-                    i--;
-                }
-            }
+
 
 
             decimal creditAmount = 0;
@@ -78,7 +71,7 @@ namespace lab.Transaction.BusinessLogic
                 credit.ForEach(x => creditAmount += x.count);
             if (debit != null)
                 debit.ForEach(x => debitAmount += x.count);
-            var balance = new Balance(account) { count = debitAmount-creditAmount, time = time };
+            var balance = new Balance(account) { count = oldBalance.count - debitAmount - creditAmount, time = time };
 
             return balance;
         }
@@ -153,12 +146,12 @@ namespace lab.Transaction.BusinessLogic
                     CreateOperation(account, FundAcc, balance);
 
                 }
-                else
+/*                else
                 {
                     balance = await BalanceCalculation(account);
                     var FundAcc = await _accounts.GetAccountFromCode("7327");
                     CreateOperation(account, FundAcc, balance);
-                }
+                }*/
             }
             return true;
         }
