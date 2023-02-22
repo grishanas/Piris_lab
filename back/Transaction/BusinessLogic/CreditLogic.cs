@@ -37,6 +37,53 @@ namespace lab.Transaction.BusinessLogic
 
 
         }
+
+        public async Task<Balance> CalcilateBalanceToInterestRate1(Account account)
+        {
+
+            var acc1 = new AccountID(account);
+            var time = DateTime.Now;
+
+            var oldBalance = await _dBBalanceContext.GetBalance(acc1, account.last_update);
+            if (oldBalance == null)
+            {
+                oldBalance = new Balance(account) { count = 0 };
+            }
+
+            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, DateTime.MinValue, time);
+            if (debit == null)
+            {
+                debit = new List<Debit>();
+                debit.Add(new Debit() { count = 0 });
+            }
+            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, DateTime.MinValue, time);
+            if (credit == null)
+            {
+                credit = new List<Credit>();
+                credit.Add(new Credit() { count = 0 });
+            }
+            for (int i = 0; i < debit.Count; i++)
+            {
+                if (debit[i].account_source_code == "7327")
+                {
+                    debit.Remove(debit[i]);
+                    i--;
+                }
+            }
+
+
+            decimal creditAmount = 0;
+            decimal debitAmount = 0;
+            if (credit != null)
+                credit.ForEach(x => creditAmount += x.count);
+            if (debit != null)
+                debit.ForEach(x => debitAmount += x.count);
+            var balance = new Balance(account) { count = debitAmount - creditAmount, time = time };
+
+            return balance;
+        }
+
+
         public async Task<Balance> CalcilateBalanceToInterestRate(Account account)
         {
 

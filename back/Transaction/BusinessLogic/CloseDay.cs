@@ -220,11 +220,9 @@ namespace lab.Transaction.BusinessLogic
                     if (IsCreditBalance(acs[i]))
                     { 
                         bal = await BalanceCredit(acs[i]);
-                    } else
-
-                    if (IsCredit(acs[i]))
+                    } else if (IsCredit(acs[i]))
                     {
-                        bal = await _creditLogic.BalanceCalculation(acs[i]);
+                        bal = await _creditLogic.CalcilateBalanceToInterestRate1(acs[i]);
 
                         try
                         {
