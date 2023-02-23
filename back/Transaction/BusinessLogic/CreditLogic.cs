@@ -89,13 +89,13 @@ namespace lab.Transaction.BusinessLogic
                 oldBalance = new Balance(account) { count = 0, time = DateTime.MinValue };
             }
 
-            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, oldBalance.time, time);
+            var debit = await _debitContext.GetAllTransactionForThePeriodDestination(acc1, DateTime.MinValue, time);
             if (debit == null)
             {
                 debit = new List<Debit>();
                 debit.Add(new Debit() { count = 0 });
             }
-            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, oldBalance.time, time);
+            var credit = await _creditContext.GetAllTransactionForThePeriodSource(acc1, DateTime.MinValue, time);
             if (credit == null)
             {
                 credit = new List<Credit>();
@@ -117,7 +117,7 @@ namespace lab.Transaction.BusinessLogic
                 credit.ForEach(x => creditAmount += x.count);
             if (debit != null)
                 debit.ForEach(x => debitAmount += x.count);
-            var balance = new Balance(account) { count = creditAmount-debitAmount, time = time };
+            var balance = new Balance(account) { count = creditAmount -debitAmount, time = time };
 
             return balance;
         }
@@ -202,7 +202,7 @@ namespace lab.Transaction.BusinessLogic
                 throw new Exception();
             var bal = new Balance(UserAccount) { count=amount,time=balance.time};
             var destination = await _accounts.GetAccountFromCode("1010");
-            CreateOperation(UserAccount, destination, balance);
+            CreateOperation(UserAccount, destination, bal);
             return true;
 
         }

@@ -24,7 +24,7 @@ namespace lab
             builder.Services.AddDbContext<DBAccountCodeContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
             builder.Services.AddDbContext<DBCitezenshipContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
 
-            builder.Services.AddDbContext<DBAccountContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<DBAccountContext>(optoins =>  optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
             builder.Services.AddDbContext<DBAccountTypeContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
             builder.Services.AddDbContext<DBBalanceContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
             builder.Services.AddDbContext<DBCreditContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
