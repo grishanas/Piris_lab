@@ -9,4 +9,8 @@
     <IsPublishable>False</IsPublishable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ScottPlot.WinForms" Version="4.1.60" />
+  </ItemGroup>
+
 </Project>
