@@ -36,6 +36,19 @@ namespace lab.db
             return true;
         }
 
+        public async Task<List<Balance>> GetAllBalances(AccountID accountID)
+        {
+            try
+            {
+                return context.Where(x => x.account_id == accountID.account_id && x.account_code == accountID.account_code).ToList();
+            }
+            catch 
+            {
+                throw;
+            }
+            throw new Exception();
+
+        }
         public async Task<Balance>? GetBalance(AccountID accountID, DateTime lastUpdate)
         {
             try

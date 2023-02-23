@@ -11,9 +11,11 @@ namespace lab.Transaction.controller
     public class AccountController : ControllerBase
     {
         private readonly DBAccountContext _context;
+        private readonly DBBalanceContext _dBBalanceContext;
 
-        public AccountController(DBAccountContext context)
+        public AccountController(DBAccountContext context, DBBalanceContext dBBalanceContext)
         {
+            _dBBalanceContext=dBBalanceContext;
             _context = context;
         }
 
@@ -44,6 +46,20 @@ namespace lab.Transaction.controller
             {
                 return Results.Problem();
             }
+        }
+
+        [HttpPost("GetBalances")]
+        public async Task<IResult> GetBalances([FromBody] UserAccountID user)
+        {
+            try
+            {
+                return Results.Json(await _dBBalanceContext.GetAllBalances(new AccountID(user)));
+
+            }catch(Exception e)
+            {
+                return Results.Problem();
+            }
+            return Results.Ok();
         }
     }
 }
