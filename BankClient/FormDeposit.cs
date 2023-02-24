@@ -25,6 +25,7 @@ namespace BankClient
             currencies = frmClient.currencies;
             accountCodes = frmClient.accountCodes;
             this.isDeposit = isDeposit;
+            Text = isDeposit ? "Deposit" : "Credit";
 
             for (int i = 0; i < currencies!.Count; ++i)
             {

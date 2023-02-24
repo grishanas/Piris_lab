@@ -1232,5 +1232,27 @@ namespace BankClient
 
             frmBalance.ShowDialog();
         }
+
+        private void tsmiAddCreditCard_Click(object sender, EventArgs e)
+        {
+            if (dgvAccounts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("No account selected");
+                return;
+            }
+
+            int selInd = dgvAccounts.SelectedRows[0].Index;
+
+            Account account = accounts![selInd];
+
+            if (account.account_code.account_code != "2400")
+            {
+                MessageBox.Show("Only accounts with code 2400 can have a credit card");
+                return;
+            }
+
+            var frmCredit = new FormCredit(this, account);
+            frmCredit.ShowDialog();
+        }
     }
 }

@@ -70,9 +70,10 @@
             this.dgvAccounts = new System.Windows.Forms.DataGridView();
             this.mstrAccounts = new System.Windows.Forms.MenuStrip();
             this.tsmiRefreshAccounts = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiBalance = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageAdmin = new System.Windows.Forms.TabPage();
             this.btnCloseDay = new System.Windows.Forms.Button();
-            this.tsmiBalance = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAddCreditCard = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlMain.SuspendLayout();
             this.tabPageClients.SuspendLayout();
             this.mstrClients.SuspendLayout();
@@ -477,7 +478,8 @@
             // 
             this.mstrAccounts.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiRefreshAccounts,
-            this.tsmiBalance});
+            this.tsmiBalance,
+            this.tsmiAddCreditCard});
             this.mstrAccounts.Location = new System.Drawing.Point(0, 0);
             this.mstrAccounts.Name = "mstrAccounts";
             this.mstrAccounts.Size = new System.Drawing.Size(792, 24);
@@ -489,6 +491,13 @@
             this.tsmiRefreshAccounts.Size = new System.Drawing.Size(58, 20);
             this.tsmiRefreshAccounts.Text = "Refresh";
             this.tsmiRefreshAccounts.Click += new System.EventHandler(this.tsmiRefreshAccounts_Click);
+            // 
+            // tsmiBalance
+            // 
+            this.tsmiBalance.Name = "tsmiBalance";
+            this.tsmiBalance.Size = new System.Drawing.Size(127, 20);
+            this.tsmiBalance.Text = "View balance history";
+            this.tsmiBalance.Click += new System.EventHandler(this.tsmiBalance_Click);
             // 
             // tabPageAdmin
             // 
@@ -510,12 +519,12 @@
             this.btnCloseDay.UseVisualStyleBackColor = true;
             this.btnCloseDay.Click += new System.EventHandler(this.btnCloseDay_Click);
             // 
-            // tsmiBalance
+            // tsmiAddCreditCard
             // 
-            this.tsmiBalance.Name = "tsmiBalance";
-            this.tsmiBalance.Size = new System.Drawing.Size(127, 20);
-            this.tsmiBalance.Text = "View balance history";
-            this.tsmiBalance.Click += new System.EventHandler(this.tsmiBalance_Click);
+            this.tsmiAddCreditCard.Name = "tsmiAddCreditCard";
+            this.tsmiAddCreditCard.Size = new System.Drawing.Size(100, 20);
+            this.tsmiAddCreditCard.Text = "Add credit card";
+            this.tsmiAddCreditCard.Click += new System.EventHandler(this.tsmiAddCreditCard_Click);
             // 
             // FormMain
             // 
@@ -603,5 +612,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiRefreshAccounts;
         private System.Windows.Forms.DataGridView dgvAccounts;
         private System.Windows.Forms.ToolStripMenuItem tsmiBalance;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddCreditCard;
     }
 }
