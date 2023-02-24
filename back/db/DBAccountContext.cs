@@ -125,7 +125,7 @@ namespace lab.db
 
         public async Task<Account>? GetAccount (AccountID id)
         {
-            return await Accounts.FirstOrDefaultAsync(x => x.account_id == id.account_id && x.account_code==id.account_code&&x.account_type==id.account_type);
+            return await Accounts.FirstOrDefaultAsync(x => x.account_id == id.account_id && x.account_code==id.account_code);
         }
 
         public async Task<List<Account>> GetAccounts(string account_id)

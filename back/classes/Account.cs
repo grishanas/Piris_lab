@@ -96,7 +96,8 @@ namespace lab.classes
     }
 
 
-        [Table("Account")]
+
+    [Table("Account")]
     public class Account
     {
         [Required]

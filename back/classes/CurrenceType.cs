@@ -13,5 +13,7 @@ namespace lab.classes
 
         [Required]
         public string name { get; set;}
+
+
     }
 }

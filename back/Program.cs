@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using lab.db;
 using lab.Transaction.BusinessLogic;
+using lab.Logic;
 
 namespace lab
 {
@@ -30,11 +31,12 @@ namespace lab
             builder.Services.AddDbContext<DBCreditContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
             builder.Services.AddDbContext<DBDebitContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
             builder.Services.AddDbContext<DBTypeOfCurrencyContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
-
+            builder.Services.AddDbContext<DBCreditCardContext>(optoins => optoins.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
 
             builder.Services.AddTransient<DepositLogic>();
             builder.Services.AddTransient<CashInOut>();
             builder.Services.AddTransient<CreditLogic>();
+            builder.Services.AddTransient<CreditCardLogic>();
            
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
