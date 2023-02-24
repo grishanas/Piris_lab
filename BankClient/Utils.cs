@@ -26,6 +26,22 @@ namespace BankClient
             return task.Result;
         }
 
+        public static string GetRequestString(this HttpClient client, HttpMethod method, string requestUri, string content, out bool success)
+        {
+            using var request = new HttpRequestMessage(method, requestUri);
+
+            request.Content = new StringContent(content, Encoding.UTF8, "application/json");
+
+            using var response = client.Send(request);
+
+            var task = response.Content.ReadAsStringAsync();
+            task.Wait();
+
+            success = response.IsSuccessStatusCode;
+
+            return task.Result;
+        }
+
         public static bool SendRequest(this HttpClient client, HttpMethod method, string requestUri, string content)
         {
             using var request = new HttpRequestMessage(method, requestUri);

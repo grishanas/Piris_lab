@@ -1180,5 +1180,57 @@ namespace BankClient
                 FillAccountsGrid();
             }
         }
+
+        private Balance[]? GetBalanceHistory(Account account)
+        {
+            string res;
+            bool success;
+
+            try
+            {
+                res = httpClient.GetRequestString(HttpMethod.Post, "api/Account/GetBalances",
+                    JsonSerializer.Serialize(new AccountEntry(account)), out success);
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Failed to connect");
+                return null;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show("Failed to get balance history");
+                return null;
+            }
+
+            var node = Utils.GetJSONValue(res);
+
+            var balances = JsonSerializer.Deserialize<Balance[]>(node);
+
+            return balances;
+        }
+
+        private void tsmiBalance_Click(object sender, EventArgs e)
+        {
+            if (dgvAccounts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("No account selected");
+            }
+
+            int selInd = dgvAccounts.SelectedRows[0].Index;
+
+            Account account = accounts![selInd];
+
+            Balance[]? balances = GetBalanceHistory(account);
+
+            if (balances == null)
+            {
+                return;
+            }
+
+            var frmBalance = new FormBalanceHistory(balances);
+
+            frmBalance.ShowDialog();
+        }
     }
 }
