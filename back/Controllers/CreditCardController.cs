@@ -37,9 +37,9 @@ namespace lab.Controllers
             {
                 var acc = await _context.LogIn(user, password);
                 return Results.Json(new AccountID() { account_code=acc.account_code,account_id=acc.account_id});
-            }catch(Exception)
+            }catch(Exception e)
             {
-                return Results.Problem();
+                return Results.Problem(e.Message);
             }
             return Results.Ok();
         }
