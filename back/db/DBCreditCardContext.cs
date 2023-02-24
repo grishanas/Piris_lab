@@ -44,9 +44,10 @@ namespace lab.db
             return creditCard;
         }
 
-        public async Task<Account> GetAccount(UserCreditCard user)
+        public async Task<AccountID> GetAccount(UserCreditCard user)
         {
-            return CreditCard.FirstOrDefault(x => x.id == user.id && x.valid_time == user.valid_time).ParentAccount;
+            var tmp = CreditCard.FirstOrDefault(x => x.id == user.id && x.valid_time.Month == user.valid_time.Month&& x.valid_time.Year == user.valid_time.Year);
+            return new AccountID() { account_code = tmp.account_code, account_id = tmp.account_id };
         }
 
         public async Task<bool> LogIn(UserCreditCard user, string password)

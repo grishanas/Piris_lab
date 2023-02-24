@@ -31,8 +31,9 @@ namespace lab.classes
         public DateTime valid_time { get; set; }
 
         public string password { get; set; }
+        public string account_id { get; set; }
 
-        public Account ParentAccount { get; set; }
+        public string account_code { get; set; }
 
         public bool is_blocked { get; set; }
 

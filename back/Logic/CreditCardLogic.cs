@@ -24,9 +24,9 @@ namespace lab.Logic
             if (acc == null)
                 throw new ArgumentNullException(nameof(acc));
 
-            var CreditCard = new CreditCard(CreateCreditCard) { ParentAccount=acc};
+            var CreditCard = new CreditCard(CreateCreditCard) { account_id=acc.account_id,account_code=acc.account_code};
 
-            _dbCreditCardContext.AddCreditCard(CreditCard);
+            await _dbCreditCardContext.AddCreditCard(CreditCard);
             return true;
 
         }
@@ -34,7 +34,7 @@ namespace lab.Logic
         public async Task<Account> LogIn(UserCreditCard user, string password)
         {
             if(await _dbCreditCardContext.LogIn(user, password))
-                return await _dbCreditCardContext.GetAccount(user);
+                return await _dBAccountContext.GetAccount( await _dbCreditCardContext.GetAccount(user));
             throw new Exception();
 
         }
