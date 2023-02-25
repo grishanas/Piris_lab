@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageClients = new System.Windows.Forms.TabPage();
             this.lboxClients = new System.Windows.Forms.ListBox();
@@ -71,9 +71,10 @@
             this.mstrAccounts = new System.Windows.Forms.MenuStrip();
             this.tsmiRefreshAccounts = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiBalance = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAddCreditCard = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageAdmin = new System.Windows.Forms.TabPage();
             this.btnCloseDay = new System.Windows.Forms.Button();
-            this.tsmiAddCreditCard = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnATM = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPageClients.SuspendLayout();
             this.mstrClients.SuspendLayout();
@@ -447,23 +448,23 @@
             this.dgvAccounts.AllowUserToResizeRows = false;
             this.dgvAccounts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvAccounts.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAccounts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAccounts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvAccounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAccounts.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAccounts.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvAccounts.Location = new System.Drawing.Point(0, 24);
             this.dgvAccounts.Name = "dgvAccounts";
@@ -499,8 +500,16 @@
             this.tsmiBalance.Text = "View balance history";
             this.tsmiBalance.Click += new System.EventHandler(this.tsmiBalance_Click);
             // 
+            // tsmiAddCreditCard
+            // 
+            this.tsmiAddCreditCard.Name = "tsmiAddCreditCard";
+            this.tsmiAddCreditCard.Size = new System.Drawing.Size(100, 20);
+            this.tsmiAddCreditCard.Text = "Add credit card";
+            this.tsmiAddCreditCard.Click += new System.EventHandler(this.tsmiAddCreditCard_Click);
+            // 
             // tabPageAdmin
             // 
+            this.tabPageAdmin.Controls.Add(this.btnATM);
             this.tabPageAdmin.Controls.Add(this.btnCloseDay);
             this.tabPageAdmin.Location = new System.Drawing.Point(4, 24);
             this.tabPageAdmin.Name = "tabPageAdmin";
@@ -519,12 +528,15 @@
             this.btnCloseDay.UseVisualStyleBackColor = true;
             this.btnCloseDay.Click += new System.EventHandler(this.btnCloseDay_Click);
             // 
-            // tsmiAddCreditCard
+            // btnATM
             // 
-            this.tsmiAddCreditCard.Name = "tsmiAddCreditCard";
-            this.tsmiAddCreditCard.Size = new System.Drawing.Size(100, 20);
-            this.tsmiAddCreditCard.Text = "Add credit card";
-            this.tsmiAddCreditCard.Click += new System.EventHandler(this.tsmiAddCreditCard_Click);
+            this.btnATM.Location = new System.Drawing.Point(8, 43);
+            this.btnATM.Name = "btnATM";
+            this.btnATM.Size = new System.Drawing.Size(75, 23);
+            this.btnATM.TabIndex = 1;
+            this.btnATM.Text = "Open ATM";
+            this.btnATM.UseVisualStyleBackColor = true;
+            this.btnATM.Click += new System.EventHandler(this.btnATM_Click);
             // 
             // FormMain
             // 
@@ -613,5 +625,6 @@
         private System.Windows.Forms.DataGridView dgvAccounts;
         private System.Windows.Forms.ToolStripMenuItem tsmiBalance;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddCreditCard;
+        private System.Windows.Forms.Button btnATM;
     }
 }

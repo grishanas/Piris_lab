@@ -10,5 +10,11 @@
             this.account_id = account.account_id;
             this.account_code = account.account_code.account_code;
         }
+
+        public UserAccountID()
+        {
+            account_id = string.Empty;
+            account_code = string.Empty;
+        }
     }
 }

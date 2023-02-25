@@ -1148,7 +1148,6 @@ namespace BankClient
             dgvAccounts.Columns.Add("9", "Account type");
             dgvAccounts.Columns.Add("10", "Balance");
             dgvAccounts.Columns.Add("11", "Client id");
-            dgvAccounts.Columns.Add("12", "Deadline");
         }
 
         private void FillAccountsGrid()
@@ -1169,7 +1168,6 @@ namespace BankClient
                 dgvAccounts.Rows[rInd].Cells[8].Value = account.account_type.name;
                 dgvAccounts.Rows[rInd].Cells[9].Value = account?.balance?.count;
                 dgvAccounts.Rows[rInd].Cells[10].Value = account?.client_id;
-                dgvAccounts.Rows[rInd].Cells[11].Value = account?.deadline;
             }
         }
 
@@ -1253,6 +1251,12 @@ namespace BankClient
 
             var frmCredit = new FormCredit(this, account);
             frmCredit.ShowDialog();
+        }
+
+        private void btnATM_Click(object sender, EventArgs e)
+        {
+            var frmATM = new FormATM(this);
+            frmATM.ShowDialog();
         }
     }
 }
